@@ -13,6 +13,8 @@ source_sha256: d9dd750b378883d93f3bf1306cbe21a10d464b03716be484d3050f648a809bb2
 - PDF 페이지: 50
 - 분할 문서: 6
 - 상태: 기계 추출 후 검수 필요
+- RIHP 게시물: [https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=120](https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=120)
+- RIHP PDF: [https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=120&no=1](https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=120&no=1)
 
 ## 문서 목록
 

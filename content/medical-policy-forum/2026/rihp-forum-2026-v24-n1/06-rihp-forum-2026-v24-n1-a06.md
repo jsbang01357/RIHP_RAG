@@ -10,6 +10,8 @@ topics: ["physician-workforce", "health-insurance"]
 pdf_pages: 29-34
 source_file: "[KMA+RIHP]+계간의료정책포럼_24권+1호_내지.pdf"
 source_sha256: 08c1b96ea31a3663ab51e6c6408b8bdf57406b5612295db006a4999292b38c40
+source_url: "https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=99"
+pdf_url: "https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=99&no=1"
 extraction_status: machine-extracted-needs-review
 ai_generated_metadata: true
 ---
@@ -24,6 +26,8 @@ ai_generated_metadata: true
 - 발간물: 계간의료정책포럼 제24권 1호
 - PDF 물리 페이지: 29-34
 - 원본 파일: `[KMA+RIHP]+계간의료정책포럼_24권+1호_내지.pdf`
+- RIHP 게시물: [https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=99](https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=99)
+- RIHP PDF: [https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=99&no=1](https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=99&no=1)
 
 ## 정규화 본문
 

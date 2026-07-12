@@ -10,6 +10,8 @@ topics: ["regional-healthcare", "physician-workforce", "medical-education", "hea
 pdf_pages: 139-166
 source_file: "[KMA+RIHP+연구보고2025-10]+일본의+의사+수+결정+정책과정+분석.pdf"
 source_sha256: 2955b7090ed952f9e1d370dba80ec5b7094727b41afe22de3f0922b1d0685450
+source_url: "https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=385"
+pdf_url: "https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=385&no=1"
 extraction_status: machine-extracted-needs-review
 ai_generated_metadata: true
 ---
@@ -24,6 +26,8 @@ ai_generated_metadata: true
 - 발간물: 일본의 의사 수 결정을 위한 정책과정 분석
 - PDF 물리 페이지: 139-166
 - 원본 파일: `[KMA+RIHP+연구보고2025-10]+일본의+의사+수+결정+정책과정+분석.pdf`
+- RIHP 게시물: [https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=385](https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=385)
+- RIHP PDF: [https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=385&no=1](https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=385&no=1)
 
 ## 정규화 본문
 

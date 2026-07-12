@@ -10,6 +10,8 @@ topics: ["regional-healthcare", "health-insurance"]
 pdf_pages: 68-69
 source_file: "[KMA+RIHP]+계간의료정책포럼_23권+4호.pdf"
 source_sha256: 784fe405f63dca67b9a2f2805098e03b66ffc0dcb2a01b5b72e728122c0fe4a2
+source_url: "https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=98"
+pdf_url: "https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=98&no=1"
 extraction_status: machine-extracted-needs-review
 ai_generated_metadata: true
 ---
@@ -24,6 +26,8 @@ ai_generated_metadata: true
 - 발간물: 계간의료정책포럼 제23권 4호
 - PDF 물리 페이지: 68-69
 - 원본 파일: `[KMA+RIHP]+계간의료정책포럼_23권+4호.pdf`
+- RIHP 게시물: [https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=98](https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=98)
+- RIHP PDF: [https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=98&no=1](https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=98&no=1)
 
 ## 정규화 본문
 

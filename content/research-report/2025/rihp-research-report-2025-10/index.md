@@ -13,6 +13,8 @@ source_sha256: 2955b7090ed952f9e1d370dba80ec5b7094727b41afe22de3f0922b1d0685450
 - PDF 페이지: 182
 - 분할 문서: 6
 - 상태: 기계 추출 후 검수 필요
+- RIHP 게시물: [https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=385](https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=385)
+- RIHP PDF: [https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=385&no=1](https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=385&no=1)
 
 ## 문서 목록
 
