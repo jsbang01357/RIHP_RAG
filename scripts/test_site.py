@@ -14,6 +14,9 @@ def main() -> int:
     required = ["index.html", "styles.css", "app.js", "search-index.json", ".nojekyll"]
     for name in required:
         assert (ROOT / "site" / name).exists(), f"missing site/{name}"
+    assert (ROOT / "site" / "downloads" / "rihp-rag-chatgpt.zip").exists()
+    html = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    assert "./downloads/rihp-rag-chatgpt.zip" in html
 
     payload = json.loads((ROOT / "site" / "search-index.json").read_text(encoding="utf-8"))
     items = payload["items"]

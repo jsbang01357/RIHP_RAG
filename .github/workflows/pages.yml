@@ -24,6 +24,12 @@ jobs:
       - name: Build search index
         run: python3 scripts/build_site.py
 
+      - name: Build ChatGPT RAG pack
+        run: python3 scripts/build_exports.py
+
+      - name: Validate download pack
+        run: python3 scripts/test_exports.py
+
       - name: Validate static site
         run: python3 scripts/test_site.py
 
