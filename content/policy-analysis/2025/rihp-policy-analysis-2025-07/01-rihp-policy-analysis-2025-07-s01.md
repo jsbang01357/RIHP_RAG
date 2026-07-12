@@ -10,6 +10,8 @@ topics: ["physician-workforce", "health-insurance", "ai-and-data"]
 pdf_pages: 7-7
 source_file: "[KMA+RIHP_정책현안분석2025-07]+한국+의사의+근무시간.pdf"
 source_sha256: d9dd750b378883d93f3bf1306cbe21a10d464b03716be484d3050f648a809bb2
+source_url: "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=120"
+pdf_url: "https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=120&no=1"
 extraction_status: machine-extracted-needs-review
 ai_generated_metadata: true
 ---
@@ -24,6 +26,8 @@ ai_generated_metadata: true
 - 발간물: 한국 의사의 근무시간
 - PDF 물리 페이지: 7-7
 - 원본 파일: `[KMA+RIHP_정책현안분석2025-07]+한국+의사의+근무시간.pdf`
+- RIHP 게시물: [https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=120](https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=120)
+- RIHP PDF: [https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=120&no=1](https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=120&no=1)
 
 ## 정규화 본문
 

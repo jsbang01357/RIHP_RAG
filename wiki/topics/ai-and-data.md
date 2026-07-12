@@ -8,6 +8,7 @@
 - [Ⅳ. 결론](../../content/policy-analysis/2025/rihp-policy-analysis-2025-07/04-rihp-policy-analysis-2025-07-s04.md)
 - [간호간병통합서비스 비용추계 및 운영효율화 방안](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/10-rihp-forum-2026-v24-n1-a10.md)
 - [미국, CMS, 인공지능(AI) 및 머신러닝(ML) 기술 활용한 심사 도입](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/14-rihp-forum-2026-v24-n1-a14.md)
+- [미국의 계층적 질환군(CMS-HCC) 위험조정 모델 도입의 문제점 분석](../../content/issue-briefing/2026/rihp-issue-briefing-15/01-rihp-issue-briefing-15-s01.md)
 - [우리나라 의학교육 평가의 나아갈 방향](../../content/medical-policy-forum/2025/rihp-forum-2025-v23-n4/04-rihp-forum-2025-v23-n4-a04.md)
 - [의료･요양 지역돌봄에서 지역의사회 중심 방문진료지원센터 모형](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/09-rihp-forum-2026-v24-n1-a09.md)
 - [의사 평생교육/전문직업성(CME/CPD) 개발의 필요성](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/03-rihp-forum-2026-v24-n1-a03.md)

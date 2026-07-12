@@ -10,6 +10,7 @@ from build_corpus import (
     extract_title_page_authors,
     forum_units,
     infer_meta,
+    make_units,
     parse_forum_toc,
     report_units,
 )
@@ -67,6 +68,20 @@ class CorpusTests(unittest.TestCase):
             ["연 구 보 고 서\n2 0 2 5 - 1 0\n일본의 의사 수 결정 정책과정 분석"],
         )
         self.assertEqual(meta.source_id, "rihp-research-report-2025-10")
+
+    def test_issue_briefing_metadata(self):
+        meta = infer_meta(
+            Path("rihp-issue-briefing-15-cms-hcc.pdf"),
+            [
+                "미국의 계층적 질환군(CMS-HCC) 위험조정 모델 도입의 문제점 분석\n"
+                "의료정책연구원\n임선미 책임연구원, 김계현 연구위원"
+            ],
+        )
+        self.assertEqual(meta.source_id, "rihp-issue-briefing-15")
+        self.assertEqual(meta.authors, ["임선미", "김계현"])
+        units = make_units(meta, ["1쪽", "2쪽", "3쪽"])
+        self.assertEqual(len(units), 1)
+        self.assertEqual((units[0].start_page, units[0].end_page), (1, 3))
 
     def test_research_chapter_uses_toc_title_once(self):
         meta = DocumentMeta("report", "보고서", "research-report", "2025-10", "2025")

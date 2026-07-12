@@ -10,6 +10,7 @@
 - [Ⅴ. 시사점](../../content/policy-analysis/2025/rihp-policy-analysis-2025-06/05-rihp-policy-analysis-2025-06-s05.md)
 - [간호간병통합서비스 비용추계 및 운영효율화 방안](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/10-rihp-forum-2026-v24-n1-a10.md)
 - [미국, CMS, 책임 기반 설계를 통한 의료 효율성 모델(AHEAD) 도입](../../content/medical-policy-forum/2025/rihp-forum-2025-v23-n4/13-rihp-forum-2025-v23-n4-a13.md)
+- [미국의 계층적 질환군(CMS-HCC) 위험조정 모델 도입의 문제점 분석](../../content/issue-briefing/2026/rihp-issue-briefing-15/01-rihp-issue-briefing-15-s01.md)
 - [부록](../../content/policy-analysis/2025/rihp-policy-analysis-2025-07/06-rihp-policy-analysis-2025-07-s06.md)
 - [비급여 통제를 위한 독단적인 정책, ‘관리급여’라는 이름의 가짜급여를 경계한다](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/08-rihp-forum-2026-v24-n1-a08.md)
 - [우리나라 의학교육 평가의 나아갈 방향](../../content/medical-policy-forum/2025/rihp-forum-2025-v23-n4/04-rihp-forum-2025-v23-n4-a04.md)

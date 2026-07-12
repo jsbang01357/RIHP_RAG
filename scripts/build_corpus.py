@@ -158,15 +158,19 @@ def infer_meta(path: Path, first_pages: list[str]) -> DocumentMeta:
             authors=[re.sub(r"\s+", "", item) for item in authors],
         )
 
-    issue_match = re.search(r"이슈브리핑\s*\+?(\d+)호", filename)
+    issue_match = re.search(r"(?:이슈브리핑\s*\+?|issue-briefing-)(\d+)", filename, re.I)
     if issue_match:
         publication_id = issue_match.group(1)
+        title_lines = [line.strip() for line in first.splitlines() if line.strip()]
+        title = title_lines[0] if title_lines else filename.rsplit(".pdf", 1)[0]
+        authors = re.findall(r"(?:^|[\s,])([가-힣]{2,4})\s+(?:책임)?연구(?:원|위원)", first, re.M)
         return DocumentMeta(
             source_id=f"rihp-issue-briefing-{publication_id}",
-            title=filename.rsplit(".pdf", 1)[0],
+            title=title,
             collection="issue-briefing",
             publication_id=publication_id,
             year="unknown",
+            authors=list(dict.fromkeys(authors)),
         )
 
     digest = hashlib.sha1(filename.encode("utf-8")).hexdigest()[:10]
@@ -381,6 +385,17 @@ def make_units(meta: DocumentMeta, pages: list[str]) -> list[Unit]:
         units = forum_units(meta, pages)
         if units:
             return units
+    if meta.collection == "issue-briefing":
+        return [
+            Unit(
+                unit_id=f"{meta.source_id}-s01",
+                title=meta.title,
+                category="briefing",
+                authors=meta.authors,
+                start_page=1,
+                end_page=len(pages),
+            )
+        ]
     return report_units(meta, pages)
 
 
@@ -388,7 +403,15 @@ def yaml_list(values: list[str]) -> str:
     return "[" + ", ".join(json.dumps(value, ensure_ascii=False) for value in values) + "]"
 
 
-def unit_markdown(meta: DocumentMeta, unit: Unit, pages: list[str], digest: str, source_file: str) -> str:
+def unit_markdown(
+    meta: DocumentMeta,
+    unit: Unit,
+    pages: list[str],
+    digest: str,
+    source_file: str,
+    source_url: str,
+    pdf_url: str,
+) -> str:
     topics = match_topics(meta.title + " " + unit.title + " " + "\n".join(pages[unit.start_page - 1 : unit.end_page]))
     frontmatter = [
         "---",
@@ -403,6 +426,8 @@ def unit_markdown(meta: DocumentMeta, unit: Unit, pages: list[str], digest: str,
         f"pdf_pages: {unit.start_page}-{unit.end_page}",
         f"source_file: {json.dumps(source_file, ensure_ascii=False)}",
         f"source_sha256: {digest}",
+        f"source_url: {json.dumps(source_url, ensure_ascii=False)}",
+        f"pdf_url: {json.dumps(pdf_url, ensure_ascii=False)}",
         "extraction_status: machine-extracted-needs-review",
         "ai_generated_metadata: true",
         "---",
@@ -417,6 +442,8 @@ def unit_markdown(meta: DocumentMeta, unit: Unit, pages: list[str], digest: str,
         f"- 발간물: {meta.title}",
         f"- PDF 물리 페이지: {unit.start_page}-{unit.end_page}",
         f"- 원본 파일: `{source_file}`",
+        f"- RIHP 게시물: [{source_url}]({source_url})" if source_url else "- RIHP 게시물: 미확인",
+        f"- RIHP PDF: [{pdf_url}]({pdf_url})" if pdf_url else "- RIHP PDF: 미확인",
         "",
         "## 정규화 본문",
         "",
@@ -469,7 +496,11 @@ def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, object]]) 
 
 
 def discover_inputs(root: Path, explicit: Iterable[str]) -> list[Path]:
-    found = {path.resolve() for path in root.rglob("*.pdf")}
+    found = {
+        path.resolve()
+        for path in root.rglob("*.pdf")
+        if not any(part.endswith(".pdf.download") for part in path.parts)
+    }
     for value in explicit:
         path = Path(value).expanduser().resolve()
         if path.is_file():
@@ -482,6 +513,8 @@ def build(root: Path, inputs: list[Path]) -> int:
     qa_rows: list[dict[str, object]] = []
     rag_rows: list[dict[str, object]] = []
     topic_links: dict[str, list[tuple[str, str]]] = {slug: [] for slug in TOPIC_RULES}
+    source_urls_path = root / "sources" / "source_urls.json"
+    source_urls = json.loads(source_urls_path.read_text(encoding="utf-8")) if source_urls_path.exists() else {}
 
     for path in inputs:
         digest = ""
@@ -497,6 +530,7 @@ def build(root: Path, inputs: list[Path]) -> int:
                     "collection": "unknown",
                     "title": nfc(path.stem),
                     "publication_id": "",
+                    "year": "",
                     "pages": "",
                     "bytes": path.stat().st_size,
                     "sha256": digest or "unavailable",
@@ -520,6 +554,11 @@ def build(root: Path, inputs: list[Path]) -> int:
             continue
 
         meta = infer_meta(path, raw_pages[:20])
+        source_link = source_urls.get(meta.source_id, {})
+        source_url = source_link.get("source_url", "")
+        pdf_url = source_link.get("pdf_url", "")
+        if source_link.get("year"):
+            meta.year = str(source_link["year"])
         units = make_units(meta, raw_pages)
         output_dir = root / "content" / meta.collection / meta.year / meta.source_id
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -531,7 +570,7 @@ def build(root: Path, inputs: list[Path]) -> int:
         for ordinal, unit in enumerate(units, 1):
             unit_path = output_dir / f"{ordinal:02d}-{ascii_slug(unit.unit_id)}.md"
             unit_path.write_text(
-                unit_markdown(meta, unit, raw_pages, digest, nfc(path.name)),
+                unit_markdown(meta, unit, raw_pages, digest, nfc(path.name), source_url, pdf_url),
                 encoding="utf-8",
             )
             relative = unit_path.relative_to(root)
@@ -559,6 +598,8 @@ def build(root: Path, inputs: list[Path]) -> int:
                                 "topics": match_topics(meta.title + " " + unit.title + " " + unit_text[:4000]),
                                 "source_sha256": digest,
                                 "source_file": nfc(path.name),
+                                "source_url": source_url,
+                                "pdf_url": pdf_url,
                                 "review_status": "machine-extracted-needs-review",
                             },
                         }
@@ -583,6 +624,8 @@ def build(root: Path, inputs: list[Path]) -> int:
             f"- PDF 페이지: {len(raw_pages)}",
             f"- 분할 문서: {len(units)}",
             "- 상태: 기계 추출 후 검수 필요",
+            f"- RIHP 게시물: [{source_url}]({source_url})" if source_url else "- RIHP 게시물: 미확인",
+            f"- RIHP PDF: [{pdf_url}]({pdf_url})" if pdf_url else "- RIHP PDF: 미확인",
             "",
             "## 문서 목록",
             "",
@@ -610,10 +653,13 @@ def build(root: Path, inputs: list[Path]) -> int:
                 "collection": meta.collection,
                 "title": meta.title,
                 "publication_id": meta.publication_id,
+                "year": meta.year,
                 "pages": len(raw_pages),
                 "bytes": path.stat().st_size,
                 "sha256": digest,
                 "source_file": nfc(path.name),
+                "source_url": source_url,
+                "pdf_url": pdf_url,
                 "status": "extracted-needs-review",
             }
         )
@@ -633,7 +679,20 @@ def build(root: Path, inputs: list[Path]) -> int:
 
     write_csv(
         root / "sources" / "manifest.csv",
-        ["source_id", "collection", "title", "publication_id", "pages", "bytes", "sha256", "source_file", "status"],
+        [
+            "source_id",
+            "collection",
+            "title",
+            "publication_id",
+            "year",
+            "pages",
+            "bytes",
+            "sha256",
+            "source_file",
+            "source_url",
+            "pdf_url",
+            "status",
+        ],
         manifest_rows,
     )
     write_csv(

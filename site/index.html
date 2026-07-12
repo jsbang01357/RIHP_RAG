@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="의료정책연구원 공개 발간물에서 관심 키워드와 원문 출처를 찾는 정적 검색 도구"
+    />
+    <meta name="theme-color" content="#15223a" />
+    <title>RIHP Policy Finder</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="RIHP Policy Finder 홈">
+        <span class="brand-mark">R</span>
+        <span>
+          <strong>RIHP Policy Finder</strong>
+          <small>의료정책 지식 탐색기</small>
+        </span>
+      </a>
+      <nav aria-label="외부 링크">
+        <a href="https://rihp.re.kr" target="_blank" rel="noopener noreferrer">RIHP</a>
+        <a
+          href="https://github.com/jsbang01357/RIHP_RAG"
+          target="_blank"
+          rel="noopener noreferrer"
+        >GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow">PUBLIC MEDICAL POLICY ARCHIVE</p>
+        <h1 id="hero-title">궁금한 의료정책을<br />원문 페이지까지 찾아보세요.</h1>
+        <p class="hero-copy">
+          계간 의료정책포럼, 연구보고서, 정책현안분석을 키워드로 검색하고
+          관련 문장과 저자, PDF 페이지, RIHP 원문을 한 번에 확인합니다.
+        </p>
+
+        <form id="searchForm" class="search-panel" role="search">
+          <label class="search-field" for="searchInput">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input
+              id="searchInput"
+              name="q"
+              type="search"
+              autocomplete="off"
+              placeholder="예: 지역의료, 의사 근무시간, CPD, CMS-HCC"
+            />
+            <kbd>/</kbd>
+          </label>
+          <button type="submit">검색</button>
+        </form>
+
+        <div class="suggestions" aria-label="추천 검색어">
+          <span>추천</span>
+          <button type="button" data-query="지역의료">지역의료</button>
+          <button type="button" data-query="의사 근무시간">의사 근무시간</button>
+          <button type="button" data-query="평생교육 CPD">평생교육·CPD</button>
+          <button type="button" data-query="CMS-HCC">CMS-HCC</button>
+          <button type="button" data-query="인공지능 의료">의료 AI</button>
+        </div>
+      </section>
+
+      <section class="archive-stats" aria-label="아카이브 통계">
+        <div><strong id="documentCount">-</strong><span>발간물</span></div>
+        <div><strong id="unitCount">-</strong><span>문서 단위</span></div>
+        <div><strong id="chunkCount">-</strong><span>검색 조각</span></div>
+        <p>서버 전송 없이 브라우저 안에서 검색합니다.</p>
+      </section>
+
+      <section class="explorer" aria-labelledby="results-title">
+        <div class="explorer-head">
+          <div>
+            <p class="eyebrow">SEARCH RESULTS</p>
+            <h2 id="results-title">검색 결과</h2>
+          </div>
+          <div class="filters">
+            <label>
+              <span>자료 유형</span>
+              <select id="collectionFilter">
+                <option value="">전체 자료</option>
+              </select>
+            </label>
+            <label>
+              <span>발행연도</span>
+              <select id="yearFilter">
+                <option value="">전체 연도</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="result-summary" aria-live="polite">
+          <p id="resultStatus">검색 데이터를 불러오는 중입니다.</p>
+          <button id="clearButton" type="button" hidden>검색 초기화</button>
+        </div>
+        <div id="results" class="results" aria-live="polite"></div>
+      </section>
+
+      <aside class="notice">
+        <strong>읽기 전 확인</strong>
+        <p>
+          이 사이트는 RIHP 공개 PDF를 기계 추출한 비공식 탐색 도구입니다. 표·그림·문서 경계는
+          검수 중이며, 정책 판단과 인용에는 반드시 연결된 RIHP 원문을 확인하세요. 계간지 원고는
+          필자 개인의 견해로 연구원의 공식 입장과 다를 수 있습니다.
+        </p>
+      </aside>
+    </main>
+
+    <footer>
+      <p>RIHP Policy Knowledge Base · source-traceable static search</p>
+      <p>원문 저작권은 각 저작자와 대한의사협회 의료정책연구원에 있습니다.</p>
+    </footer>
+  </body>
+</html>

@@ -20,6 +20,7 @@
 - `sources/manifest.csv`: 원본 식별자, 해시, 페이지 수
 - `qa/extraction-report.csv`: 손상, 빈 페이지, 표, 중복 글자 검사
 - `scripts/`: 변환 및 검증 코드
+- `site/`: 브라우저 안에서 동작하는 정적 키워드 검색 사이트
 - `tasks/`: 작업 기록과 교훈
 
 원본 PDF는 저장소 최상위 또는 외부 경로에 둘 수 있지만 Git에는 포함하지 않습니다.
@@ -31,8 +32,10 @@ Codex 번들 Python을 사용하는 예시입니다.
 ```bash
 python3 -m pip install -r requirements.txt
 python3 scripts/build_corpus.py
+python3 scripts/build_site.py
 python3 scripts/build_corpus.py --input /path/to/document.pdf
 python3 scripts/test_build_corpus.py
+python3 scripts/test_site.py
 ```
 
 인자를 생략하면 저장소 아래의 PDF를 재귀적으로 찾습니다. 여러 `--input`을 함께
@@ -40,6 +43,16 @@ python3 scripts/test_build_corpus.py
 
 현재 로컬 파일럿 PDF는 `sources/pdfs/`와 저장소 최상위에 있으며 `.gitignore`로
 Git 커밋에서 제외됩니다.
+
+## 정적 검색 사이트
+
+`site/index.html`은 `site/search-index.json`을 불러와 서버나 외부 API 없이
+브라우저에서 검색합니다. 검색 결과에는 본문 발췌, 저자, PDF 물리 페이지,
+RIHP 게시물 URL과 직접 PDF URL이 표시됩니다.
+
+GitHub Pages는 `.github/workflows/pages.yml`에서 `main` 브랜치 변경 시 자동
+배포됩니다. 검색 인덱스는 배포 전에 `scripts/build_site.py`로 다시 생성하고
+`scripts/test_site.py`로 RIHP 링크와 로컬 경로 누출을 검사합니다.
 
 ## 품질 상태
 

@@ -10,6 +10,8 @@ topics: ["regional-healthcare", "medical-education", "health-insurance"]
 pdf_pages: 9-21
 source_file: "[KMA+RIHP_정책현안분석2025-06]+거점의료기관+지정+제도+개선방안+연구.pdf"
 source_sha256: cdf80336c34ee5fab47d63970fc2860bd53006e969e38132e6127fc6d5e173d8
+source_url: "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=119"
+pdf_url: "https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=119&no=1"
 extraction_status: machine-extracted-needs-review
 ai_generated_metadata: true
 ---
@@ -24,6 +26,8 @@ ai_generated_metadata: true
 - 발간물: 거점의료기관 지정 제도 개선 방안 연구
 - PDF 물리 페이지: 9-21
 - 원본 파일: `[KMA+RIHP_정책현안분석2025-06]+거점의료기관+지정+제도+개선방안+연구.pdf`
+- RIHP 게시물: [https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=119](https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=119)
+- RIHP PDF: [https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=119&no=1](https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=119&no=1)
 
 ## 정규화 본문
 

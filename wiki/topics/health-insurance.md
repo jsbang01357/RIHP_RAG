@@ -13,6 +13,7 @@
 - [검체 위･수탁 제도 개편 강제화의 문제점과 대책](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/06-rihp-forum-2026-v24-n1-a06.md)
 - [대만, 위생복리부 2026년 정책 방안 발표](../../content/medical-policy-forum/2025/rihp-forum-2025-v23-n4/14-rihp-forum-2025-v23-n4-a14.md)
 - [미국, CMS, 책임 기반 설계를 통한 의료 효율성 모델(AHEAD) 도입](../../content/medical-policy-forum/2025/rihp-forum-2025-v23-n4/13-rihp-forum-2025-v23-n4-a13.md)
+- [미국의 계층적 질환군(CMS-HCC) 위험조정 모델 도입의 문제점 분석](../../content/issue-briefing/2026/rihp-issue-briefing-15/01-rihp-issue-briefing-15-s01.md)
 - [비급여 통제를 위한 독단적인 정책, ‘관리급여’라는 이름의 가짜급여를 경계한다](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/08-rihp-forum-2026-v24-n1-a08.md)
 - [성분명 처방 의무화 법안이 국민건강에 끼치는 위해와 대안](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/05-rihp-forum-2026-v24-n1-a05.md)
 - [의료･요양 지역돌봄에서 지역의사회 중심 방문진료지원센터 모형](../../content/medical-policy-forum/2026/rihp-forum-2026-v24-n1/09-rihp-forum-2026-v24-n1-a09.md)
