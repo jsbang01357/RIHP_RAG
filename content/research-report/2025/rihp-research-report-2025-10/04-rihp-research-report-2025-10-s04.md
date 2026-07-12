@@ -4,6 +4,7 @@ title: "제4장. 일본 의사양성과정을 위한 의사편재대책 검토"
 collection: research-report
 publication_id: 2025-10
 year: 2025
+published_at: ""
 category: "chapter"
 authors: ["강태욱", "김도훈", "이충형"]
 topics: ["regional-healthcare", "physician-workforce", "medical-education", "health-insurance", "ai-and-data"]

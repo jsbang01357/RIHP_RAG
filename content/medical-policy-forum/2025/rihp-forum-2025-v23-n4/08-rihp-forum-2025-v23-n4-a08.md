@@ -4,6 +4,7 @@ title: "지도전문의 교육역량의 현주소와 미래 과제: 2025년, 대
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "연구보고"
 authors: ["김성근"]
 topics: ["physician-workforce", "medical-education"]

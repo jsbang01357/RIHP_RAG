@@ -4,6 +4,7 @@ title: "비급여 통제를 위한 독단적인 정책, ‘관리급여’라는
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "이슈 & 진단"
 authors: ["이태연"]
 topics: ["regional-healthcare", "health-insurance"]

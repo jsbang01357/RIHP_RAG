@@ -4,6 +4,7 @@ title: "제3장. 일본의 의사 수 결정 과정 분석"
 collection: research-report
 publication_id: 2025-10
 year: 2025
+published_at: ""
 category: "chapter"
 authors: ["강태욱", "김도훈", "이충형"]
 topics: ["regional-healthcare", "physician-workforce", "medical-education", "health-insurance", "ai-and-data"]

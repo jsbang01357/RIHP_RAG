@@ -37,6 +37,7 @@ class DocumentMeta:
     publication_id: str
     year: str
     authors: list[str] = field(default_factory=list)
+    published_at: str = ""
 
 
 @dataclass
@@ -64,12 +65,24 @@ def compact(value: str) -> str:
     return re.sub(r"[^0-9a-z가-힣]", "", value)
 
 
+def clean_catalog_title(value: str) -> str:
+    value = nfc(value).strip()
+    value = re.sub(
+        r"^\[(?:연구\s*보고서|정책\s*현안\s*분석)\s+20\d{2}\s*-\s*\d{2}\]\s*",
+        "",
+        value,
+    )
+    value = re.sub(r"^\[이슈\s*브리핑\s*(?:제\s*)?\d+\s*호\]\s*", "", value)
+    return value.strip()
+
+
 def clean_tripled_glyphs(value: str) -> str:
     """Collapse PDF title glyphs accidentally repeated at least three times."""
     return re.sub(r"([가-힣])\1{2,}", r"\1", value)
 
 
 def clean_page_text(value: str) -> str:
+    value = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", value)
     value = nfc(value).replace("\u00a0", " ")
     value = clean_tripled_glyphs(value)
     lines: list[str] = []
@@ -110,6 +123,19 @@ def infer_meta(path: Path, first_pages: list[str]) -> DocumentMeta:
             title=f"계간의료정책포럼 제{volume}권 {issue}호",
             collection="medical-policy-forum",
             publication_id=pub_id,
+            year=year,
+        )
+
+    annual_match = re.search(r"rihp-annual-report-(20\d{2})", filename, re.I)
+    if not annual_match:
+        annual_match = re.search(r"(20\d{2})\s*(?:년\s*)?연례\s*보고서", first)
+    if annual_match:
+        year = annual_match.group(1)
+        return DocumentMeta(
+            source_id=f"rihp-annual-report-{year}",
+            title=f"{year} 연례보고서",
+            collection="annual-report",
+            publication_id=year,
             year=year,
         )
 
@@ -158,7 +184,11 @@ def infer_meta(path: Path, first_pages: list[str]) -> DocumentMeta:
             authors=[re.sub(r"\s+", "", item) for item in authors],
         )
 
-    issue_match = re.search(r"(?:이슈브리핑\s*\+?|issue-briefing-)(\d+)", filename, re.I)
+    issue_match = re.search(
+        r"(?:이슈\s*브리핑\s*(?:제\s*)?|issue-briefing-)(\d+)\s*(?:호)?",
+        filename + "\n" + first,
+        re.I,
+    )
     if issue_match:
         publication_id = issue_match.group(1)
         title_lines = [line.strip() for line in first.splitlines() if line.strip()]
@@ -420,6 +450,7 @@ def unit_markdown(
         f"collection: {meta.collection}",
         f"publication_id: {meta.publication_id}",
         f"year: {meta.year}",
+        f"published_at: {json.dumps(meta.published_at, ensure_ascii=False)}",
         f"category: {json.dumps(unit.category, ensure_ascii=False)}",
         f"authors: {yaml_list(unit.authors)}",
         f"topics: {yaml_list(topics)}",
@@ -531,6 +562,7 @@ def build(root: Path, inputs: list[Path]) -> int:
                     "title": nfc(path.stem),
                     "publication_id": "",
                     "year": "",
+                    "published_at": "",
                     "pages": "",
                     "bytes": path.stat().st_size,
                     "sha256": digest or "unavailable",
@@ -557,8 +589,12 @@ def build(root: Path, inputs: list[Path]) -> int:
         source_link = source_urls.get(meta.source_id, {})
         source_url = source_link.get("source_url", "")
         pdf_url = source_link.get("pdf_url", "")
+        if source_link.get("title"):
+            meta.title = clean_catalog_title(str(source_link["title"]))
         if source_link.get("year"):
             meta.year = str(source_link["year"])
+        if source_link.get("published_at"):
+            meta.published_at = str(source_link["published_at"])
         units = make_units(meta, raw_pages)
         output_dir = root / "content" / meta.collection / meta.year / meta.source_id
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -593,6 +629,7 @@ def build(root: Path, inputs: list[Path]) -> int:
                                 "title": unit.title,
                                 "collection": meta.collection,
                                 "publication_id": meta.publication_id,
+                                "published_at": meta.published_at,
                                 "pdf_page": page_no,
                                 "authors": unit.authors,
                                 "topics": match_topics(meta.title + " " + unit.title + " " + unit_text[:4000]),
@@ -615,6 +652,7 @@ def build(root: Path, inputs: list[Path]) -> int:
             f"collection: {meta.collection}",
             f"publication_id: {meta.publication_id}",
             f"year: {meta.year}",
+            f"published_at: {json.dumps(meta.published_at, ensure_ascii=False)}",
             f"source_sha256: {digest}",
             "---",
             "",
@@ -654,6 +692,7 @@ def build(root: Path, inputs: list[Path]) -> int:
                 "title": meta.title,
                 "publication_id": meta.publication_id,
                 "year": meta.year,
+                "published_at": meta.published_at,
                 "pages": len(raw_pages),
                 "bytes": path.stat().st_size,
                 "sha256": digest,
@@ -685,6 +724,7 @@ def build(root: Path, inputs: list[Path]) -> int:
             "title",
             "publication_id",
             "year",
+            "published_at",
             "pages",
             "bytes",
             "sha256",

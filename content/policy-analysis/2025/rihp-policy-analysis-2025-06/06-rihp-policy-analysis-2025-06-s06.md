@@ -4,6 +4,7 @@ title: "참고문헌"
 collection: policy-analysis
 publication_id: 2025-06
 year: 2025
+published_at: ""
 category: "chapter"
 authors: ["강주현", "신요한", "이정찬", "김계현"]
 topics: ["regional-healthcare", "health-insurance", "ai-and-data"]

@@ -4,6 +4,7 @@ title: "우리나라 CPD 현황과 관리기구"
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "특집 : 의사의 전문성 유지와 평생 교육"
 authors: ["홍석주", "최지영"]
 topics: ["medical-education"]

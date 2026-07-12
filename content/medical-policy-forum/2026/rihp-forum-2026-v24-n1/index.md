@@ -4,6 +4,7 @@ title: "계간의료정책포럼 제24권 1호"
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 source_sha256: 08c1b96ea31a3663ab51e6c6408b8bdf57406b5612295db006a4999292b38c40
 ---
 

@@ -4,6 +4,7 @@ title: "프랑스, 2026년 의료협약 시행에 따른 의료접근성 및 예
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "해외의료정책 동향"
 authors: []
 topics: ["regional-healthcare", "health-insurance"]

@@ -4,6 +4,7 @@ title: "제1장. 서론"
 collection: research-report
 publication_id: 2025-10
 year: 2025
+published_at: ""
 category: "chapter"
 authors: ["강태욱", "김도훈", "이충형"]
 topics: ["regional-healthcare", "physician-workforce", "health-insurance"]

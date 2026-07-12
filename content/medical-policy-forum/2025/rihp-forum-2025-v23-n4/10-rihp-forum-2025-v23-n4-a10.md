@@ -4,6 +4,7 @@ title: "인공지능 시대 의료계 대응방안"
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "연구보고"
 authors: ["임지연", "법학박사"]
 topics: ["medical-education", "health-insurance", "ai-and-data"]

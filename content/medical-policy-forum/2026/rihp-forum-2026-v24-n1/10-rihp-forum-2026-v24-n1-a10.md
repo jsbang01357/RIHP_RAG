@@ -4,6 +4,7 @@ title: "간호간병통합서비스 비용추계 및 운영효율화 방안"
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "연구보고"
 authors: ["신요한"]
 topics: ["regional-healthcare", "health-insurance", "ai-and-data"]

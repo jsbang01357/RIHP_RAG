@@ -4,6 +4,7 @@ title: "일본의 의사 수 결정을 위한 정책과정 분석"
 collection: research-report
 publication_id: 2025-10
 year: 2025
+published_at: ""
 source_sha256: 2955b7090ed952f9e1d370dba80ec5b7094727b41afe22de3f0922b1d0685450
 ---
 

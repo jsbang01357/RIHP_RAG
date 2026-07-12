@@ -4,6 +4,7 @@ title: "일본, 후생노동성 2026년 진료 수가 개정안 공개"
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "해외의료정책 동향"
 authors: []
 topics: ["regional-healthcare", "health-insurance"]

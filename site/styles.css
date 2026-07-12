@@ -219,12 +219,16 @@ h2 { margin: 0; font-size: 38px; letter-spacing: -0.04em; }
 
 .results { display: grid; gap: 14px; padding-top: 20px; }
 .result-card {
+  min-width: 0;
   padding: 26px;
   border: 1px solid #dde2de;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.84);
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
+.result-card h3,
+.byline,
+.excerpt { overflow-wrap: anywhere; }
 .result-card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(21, 34, 58, 0.08); }
 .result-meta { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
 .badge {

@@ -4,6 +4,7 @@ title: "주요국의 일차의료 정책 최신 동향"
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "연구보고"
 authors: ["임선미"]
 topics: ["regional-healthcare", "physician-workforce", "health-insurance"]

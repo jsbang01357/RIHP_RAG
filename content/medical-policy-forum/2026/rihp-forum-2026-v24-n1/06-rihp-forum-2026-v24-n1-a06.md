@@ -4,6 +4,7 @@ title: "검체 위･수탁 제도 개편 강제화의 문제점과 대책"
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "이슈 & 진단"
 authors: ["박근태"]
 topics: ["physician-workforce", "health-insurance"]

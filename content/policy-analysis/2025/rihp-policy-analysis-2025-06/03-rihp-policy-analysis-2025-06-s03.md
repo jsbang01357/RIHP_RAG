@@ -4,6 +4,7 @@ title: "Ⅲ. 일본 지역의료지원병원제도 운영 현황"
 collection: policy-analysis
 publication_id: 2025-06
 year: 2025
+published_at: ""
 category: "chapter"
 authors: ["강주현", "신요한", "이정찬", "김계현"]
 topics: ["regional-healthcare", "physician-workforce", "medical-education", "health-insurance", "ai-and-data"]

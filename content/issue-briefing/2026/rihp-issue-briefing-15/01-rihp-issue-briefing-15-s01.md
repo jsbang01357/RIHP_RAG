@@ -4,6 +4,7 @@ title: "미국의 계층적 질환군(CMS-HCC) 위험조정 모델 도입의 문
 collection: issue-briefing
 publication_id: 15
 year: 2026
+published_at: ""
 category: "briefing"
 authors: ["임선미", "김계현"]
 topics: ["regional-healthcare", "health-insurance", "ai-and-data"]

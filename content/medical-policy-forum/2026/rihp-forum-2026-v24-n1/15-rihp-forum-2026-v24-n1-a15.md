@@ -4,6 +4,7 @@ title: "EU, 2026년 의료 및 생명과학 분야 주요 변화 예고"
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "해외의료정책 동향"
 authors: []
 topics: ["ai-and-data"]

@@ -4,6 +4,7 @@ title: "참고문헌"
 collection: research-report
 publication_id: 2025-10
 year: 2025
+published_at: ""
 category: "chapter"
 authors: ["강태욱", "김도훈", "이충형"]
 topics: ["physician-workforce", "health-insurance", "ai-and-data"]

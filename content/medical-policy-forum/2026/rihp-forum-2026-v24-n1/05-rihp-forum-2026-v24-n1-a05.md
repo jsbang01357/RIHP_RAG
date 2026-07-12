@@ -4,6 +4,7 @@ title: "성분명 처방 의무화 법안이 국민건강에 끼치는 위해와
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "이슈 & 진단"
 authors: ["이주병"]
 topics: ["health-insurance"]

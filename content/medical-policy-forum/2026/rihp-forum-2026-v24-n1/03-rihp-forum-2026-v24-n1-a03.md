@@ -4,6 +4,7 @@ title: "의사 평생교육/전문직업성(CME/CPD) 개발의 필요성"
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "특집 : 의사의 전문성 유지와 평생 교육"
 authors: ["박정율"]
 topics: ["medical-education", "health-insurance", "ai-and-data"]

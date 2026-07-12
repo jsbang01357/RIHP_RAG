@@ -1,4 +1,49 @@
 {
+  "rihp-annual-report-2021": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=annual&wr_id=8",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=annual&wr_id=8&no=1",
+    "year": "2021",
+    "board": "annual",
+    "wr_id": 8,
+    "published_at": "2023-04-04",
+    "title": "2021 연례보고서"
+  },
+  "rihp-annual-report-2022": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=annual&wr_id=9",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=annual&wr_id=9&no=1",
+    "year": "2022",
+    "board": "annual",
+    "wr_id": 9,
+    "published_at": "2023-04-04",
+    "title": "2022 연례보고서"
+  },
+  "rihp-forum-2025-v23-n1": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=94",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=94&no=1",
+    "year": "2025",
+    "board": "publication_forum",
+    "wr_id": 94,
+    "published_at": "2025-05-29",
+    "title": "계간의료정책포럼 제23권 1호"
+  },
+  "rihp-forum-2025-v23-n2": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=95",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=95&no=1",
+    "year": "2025",
+    "board": "publication_forum",
+    "wr_id": 95,
+    "published_at": "2025-07-31",
+    "title": "계간의료정책포럼 제23권 2호"
+  },
+  "rihp-forum-2025-v23-n3": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=96",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=96&no=1",
+    "year": "2025",
+    "board": "publication_forum",
+    "wr_id": 96,
+    "published_at": "2025-10-16",
+    "title": "계간의료정책포럼 제23권 3호"
+  },
   "rihp-forum-2025-v23-n4": {
     "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=98",
     "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=98&no=1"
@@ -6,6 +51,47 @@
   "rihp-forum-2026-v24-n1": {
     "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=publication_forum&wr_id=99",
     "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=publication_forum&wr_id=99&no=1"
+  },
+  "rihp-issue-briefing-13": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=118",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=118&no=1",
+    "year": "2025",
+    "board": "policy_analysis",
+    "wr_id": 118,
+    "published_at": "2025-10-20",
+    "title": "[이슈브리핑 13호] 의사 단체행동시 필수의료 유지? 단체행동 예방 및 절차 먼저"
+  },
+  "rihp-issue-briefing-14": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=121",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=121&no=1",
+    "year": "2026",
+    "board": "policy_analysis",
+    "wr_id": 121,
+    "published_at": "2026-06-04",
+    "title": "[이슈브리핑 14호] 미국의 가치기반의료(Value-based Health Care), 우리나라에 적합한가?"
+  },
+  "rihp-issue-briefing-15": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=122",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=122&no=1",
+    "year": "2026"
+  },
+  "rihp-issue-briefing-16": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=123",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=123&no=1",
+    "year": "2026",
+    "board": "policy_analysis",
+    "wr_id": 123,
+    "published_at": "2026-06-19",
+    "title": "[이슈브리핑 16호] 청소년의 삶을 실험대로 삼은「지역의사의 양성 및 지원 등에 관한 법률」 시행"
+  },
+  "rihp-policy-analysis-2025-04": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=117",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=117&no=1",
+    "year": "2025",
+    "board": "policy_analysis",
+    "wr_id": 117,
+    "published_at": "2025-09-05",
+    "title": "[정책현안분석 2025-04] 개방병원 국내외 현황 및 시사점"
   },
   "rihp-policy-analysis-2025-06": {
     "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=119",
@@ -15,13 +101,71 @@
     "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=120",
     "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=120&no=1"
   },
-  "rihp-issue-briefing-15": {
-    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=policy_analysis&wr_id=122",
-    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=policy_analysis&wr_id=122&no=1",
-    "year": "2026"
+  "rihp-research-report-2025-05": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=380",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=380&no=1",
+    "year": "2025",
+    "board": "research_report",
+    "wr_id": 380,
+    "published_at": "2025-10-02",
+    "title": "[연구보고서 2025-05] 인공지능 시대 의료계 대응 방안"
+  },
+  "rihp-research-report-2025-06": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=381",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=381&no=1",
+    "year": "2025",
+    "board": "research_report",
+    "wr_id": 381,
+    "published_at": "2025-10-16",
+    "title": "[연구보고서 2025-06] 지도전문의 교육역량 실태조사"
+  },
+  "rihp-research-report-2025-07": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=382",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=382&no=1",
+    "year": "2025",
+    "board": "research_report",
+    "wr_id": 382,
+    "published_at": "2026-01-08",
+    "title": "[연구보고서 2025-07] 간호간병통합서비스 비용추계 및 운영효율화 방안"
+  },
+  "rihp-research-report-2025-08": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=383",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=383&no=1",
+    "year": "2025",
+    "board": "research_report",
+    "wr_id": 383,
+    "published_at": "2026-01-15",
+    "title": "[연구보고서 2025-08] 주요국 보건의료인력 수급 계획 및 결정 과정 분석 - 의사인력을 중심으로"
+  },
+  "rihp-research-report-2025-09": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=384",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=384&no=1",
+    "year": "2025",
+    "board": "research_report",
+    "wr_id": 384,
+    "published_at": "2026-01-29",
+    "title": "[연구보고서 2025-09] 의약분업 재평가 연구 : 정책 효과 분석"
   },
   "rihp-research-report-2025-10": {
     "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=385",
     "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=385&no=1"
+  },
+  "rihp-research-report-2025-11": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=386",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=386&no=1",
+    "year": "2025",
+    "board": "research_report",
+    "wr_id": 386,
+    "published_at": "2026-02-12",
+    "title": "[연구보고서 2025-11] 일차의료기관(1인 의원)의 실질적인 방문진료 제공을 위한 지역의사회 중심의 ‘방문진료센터’ 모형 개발"
+  },
+  "rihp-research-report-2026-02": {
+    "source_url": "https://rihp.re.kr/bbs/board.php?bo_table=research_report&wr_id=388",
+    "pdf_url": "https://rihp.re.kr/bbs/download.php?bo_table=research_report&wr_id=388&no=1",
+    "year": "2026",
+    "board": "research_report",
+    "wr_id": 388,
+    "published_at": "2026-07-09",
+    "title": "[연구보고서 2026-02] 의원급 의료기관의 환자안전사고 예방 및 대처를 위한 방안"
   }
 }

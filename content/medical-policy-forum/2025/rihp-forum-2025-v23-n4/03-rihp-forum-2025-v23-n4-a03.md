@@ -4,6 +4,7 @@ title: "AI 시대를 선도할 인재양성을 위한 의학교육의 방향"
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "특집 : 의학교육의 해외동향과 우리나라의 방향"
 authors: ["이영미"]
 topics: ["physician-workforce", "medical-education", "ai-and-data"]

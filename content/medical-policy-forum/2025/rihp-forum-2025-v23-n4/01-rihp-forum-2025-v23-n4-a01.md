@@ -4,6 +4,7 @@ title: "전공의 수련의 위기를 기회로"
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "시론"
 authors: ["문석균"]
 topics: ["physician-workforce", "medical-education", "health-insurance", "ai-and-data"]
