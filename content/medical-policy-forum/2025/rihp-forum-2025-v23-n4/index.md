@@ -4,6 +4,7 @@ title: "계간의료정책포럼 제23권 4호"
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 source_sha256: 784fe405f63dca67b9a2f2805098e03b66ffc0dcb2a01b5b72e728122c0fe4a2
 ---
 

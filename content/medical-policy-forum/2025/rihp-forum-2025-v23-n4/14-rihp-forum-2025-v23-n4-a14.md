@@ -4,6 +4,7 @@ title: "대만, 위생복리부 2026년 정책 방안 발표"
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "해외의료정책 동향"
 authors: []
 topics: ["health-insurance"]

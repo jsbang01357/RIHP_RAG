@@ -31,15 +31,23 @@ Codex 번들 Python을 사용하는 예시입니다.
 
 ```bash
 python3 -m pip install -r requirements.txt
+python3 scripts/sync_latest.py --dry-run
+python3 scripts/sync_latest.py
 python3 scripts/build_corpus.py
 python3 scripts/build_site.py
 python3 scripts/build_corpus.py --input /path/to/document.pdf
 python3 scripts/test_build_corpus.py
+python3 scripts/test_sync_latest.py
 python3 scripts/test_site.py
 ```
 
 인자를 생략하면 저장소 아래의 PDF를 재귀적으로 찾습니다. 여러 `--input`을 함께
 사용할 수 있습니다. 산출물은 입력 PDF에서 언제든 다시 만들 수 있습니다.
+
+`scripts/sync_latest.py`는 RIHP 공식 게시판 첫 페이지를 최신순으로 읽고, 아직 없는
+연구보고서·정책현안/이슈브리핑·계간지·연례보고서를 공식 첨부 링크에서 내려받습니다.
+기본 배치는 연구보고서 6건, 정책현안/이슈브리핑 3건, 계간지 2건, 연례보고서 1건이며
+각 `--research`, `--policy`, `--forum`, `--annual` 인자로 조절할 수 있습니다.
 
 현재 로컬 파일럿 PDF는 `sources/pdfs/`와 저장소 최상위에 있으며 `.gitignore`로
 Git 커밋에서 제외됩니다.

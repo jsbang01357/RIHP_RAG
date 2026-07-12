@@ -4,6 +4,7 @@ title: "한국 의사의 근무시간"
 collection: policy-analysis
 publication_id: 2025-07
 year: 2025
+published_at: ""
 source_sha256: d9dd750b378883d93f3bf1306cbe21a10d464b03716be484d3050f648a809bb2
 ---
 

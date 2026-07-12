@@ -4,6 +4,7 @@ title: "일본, 자민당･공명당･일본유신회, ‘지속 가능한 사
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "해외의료정책 동향"
 authors: []
 topics: ["regional-healthcare", "health-insurance", "ai-and-data"]

@@ -3,6 +3,7 @@ const COLLECTION_LABELS = {
   "policy-analysis": "정책현안분석",
   "research-report": "연구보고서",
   "issue-briefing": "이슈브리핑",
+  "annual-report": "연례보고서",
 };
 
 const state = {
@@ -88,12 +89,13 @@ function resultCard(item, terms) {
   const authors = item.authors?.length ? item.authors.join(" · ") : "저자 정보 확인 중";
   const sourceUrl = safeLink(item.source_url);
   const pdfUrl = safeLink(item.pdf_url);
+  const dateLabel = item.published_at || item.year;
   return `
     <article class="result-card">
       <div class="result-meta">
         <span class="badge">${escapeHtml(collection)}</span>
         <span class="badge page-badge">PDF p.${escapeHtml(item.pdf_page)}</span>
-        ${item.year ? `<span class="badge">${escapeHtml(item.year)}</span>` : ""}
+        ${dateLabel ? `<span class="badge">${escapeHtml(dateLabel)}</span>` : ""}
       </div>
       <h3>${highlight(item.title, terms)}</h3>
       <p class="byline">${escapeHtml(authors)} · ${escapeHtml(item.publication_id)}</p>
@@ -125,7 +127,15 @@ function render() {
     .filter((item) => !state.year || item.year === state.year)
     .map((item) => ({ item, score: terms.length ? scoreItem(item, terms, fullQuery) : 1 }))
     .filter((entry) => entry.score > 0)
-    .sort((a, b) => b.score - a.score || a.item.pdf_page - b.item.pdf_page);
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        String(b.item.published_at || b.item.year).localeCompare(
+          String(a.item.published_at || a.item.year),
+        ) ||
+        String(b.item.year).localeCompare(String(a.item.year)) ||
+        a.item.pdf_page - b.item.pdf_page,
+    );
 
   const seen = new Set();
   const deduped = [];

@@ -6,6 +6,8 @@ from pathlib import Path
 from build_corpus import (
     DocumentMeta,
     chunk_text,
+    clean_catalog_title,
+    clean_page_text,
     clean_tripled_glyphs,
     extract_title_page_authors,
     forum_units,
@@ -17,6 +19,19 @@ from build_corpus import (
 
 
 class CorpusTests(unittest.TestCase):
+    def test_catalog_title_removes_publication_prefix(self):
+        self.assertEqual(
+            clean_catalog_title("[연구보고서 2026-02] 의원급 의료기관 환자안전"),
+            "의원급 의료기관 환자안전",
+        )
+        self.assertEqual(
+            clean_catalog_title("[이슈브리핑 16호] 지역의사제"),
+            "지역의사제",
+        )
+
+    def test_page_cleanup_removes_pdf_control_characters(self):
+        self.assertEqual(clean_page_text("연례\x00보고서\x07 본문"), "연례보고서 본문")
+
     def test_tripled_title_cleanup(self):
         self.assertEqual(clean_tripled_glyphs("거거거점점점의의의료료료"), "거점의료")
 
@@ -82,6 +97,18 @@ class CorpusTests(unittest.TestCase):
         units = make_units(meta, ["1쪽", "2쪽", "3쪽"])
         self.assertEqual(len(units), 1)
         self.assertEqual((units[0].start_page, units[0].end_page), (1, 3))
+
+    def test_issue_briefing_number_from_pdf_text(self):
+        meta = infer_meta(
+            Path("policy-analysis-123.pdf"),
+            ["이슈브리핑 제16호\n지역의사 양성 정책 분석\n의료정책연구원"],
+        )
+        self.assertEqual(meta.source_id, "rihp-issue-briefing-16")
+
+    def test_annual_report_metadata_from_stable_filename(self):
+        meta = infer_meta(Path("rihp-annual-report-2022.pdf"), ["ANNUAL REPORT"])
+        self.assertEqual(meta.source_id, "rihp-annual-report-2022")
+        self.assertEqual(meta.collection, "annual-report")
 
     def test_research_chapter_uses_toc_title_once(self):
         meta = DocumentMeta("report", "보고서", "research-report", "2025-10", "2025")

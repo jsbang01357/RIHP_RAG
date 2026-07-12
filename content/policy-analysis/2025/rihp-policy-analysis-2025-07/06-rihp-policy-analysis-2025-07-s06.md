@@ -4,6 +4,7 @@ title: "부록"
 collection: policy-analysis
 publication_id: 2025-07
 year: 2025
+published_at: ""
 category: "chapter"
 authors: ["이정찬", "박정훈", "김계현", "신요한"]
 topics: ["regional-healthcare", "physician-workforce", "medical-education"]

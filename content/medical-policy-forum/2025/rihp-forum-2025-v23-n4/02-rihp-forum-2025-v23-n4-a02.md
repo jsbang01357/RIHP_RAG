@@ -4,6 +4,7 @@ title: "의학교육의 해외동향과 시사점"
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "특집 : 의학교육의 해외동향과 우리나라의 방향"
 authors: ["여상희"]
 topics: ["medical-education", "health-insurance", "ai-and-data"]

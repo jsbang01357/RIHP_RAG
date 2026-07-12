@@ -4,6 +4,7 @@ title: "미국, CMS, 책임 기반 설계를 통한 의료 효율성 모델(AHEA
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "해외의료정책 동향"
 authors: []
 topics: ["regional-healthcare", "health-insurance"]

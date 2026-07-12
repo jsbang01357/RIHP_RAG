@@ -4,6 +4,7 @@ title: "거점의료기관 지정 제도 개선 방안 연구"
 collection: policy-analysis
 publication_id: 2025-06
 year: 2025
+published_at: ""
 source_sha256: cdf80336c34ee5fab47d63970fc2860bd53006e969e38132e6127fc6d5e173d8
 ---
 

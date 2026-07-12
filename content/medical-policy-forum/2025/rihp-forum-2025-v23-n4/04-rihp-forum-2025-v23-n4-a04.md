@@ -4,6 +4,7 @@ title: "우리나라 의학교육 평가의 나아갈 방향"
 collection: medical-policy-forum
 publication_id: v23-n4
 year: 2025
+published_at: ""
 category: "특집 : 의학교육의 해외동향과 우리나라의 방향"
 authors: ["허정식"]
 topics: ["regional-healthcare", "medical-education", "ai-and-data"]

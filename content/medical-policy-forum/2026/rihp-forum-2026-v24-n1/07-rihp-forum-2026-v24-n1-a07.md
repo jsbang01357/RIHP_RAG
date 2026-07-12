@@ -4,6 +4,7 @@ title: "‘할 수 있느냐’가 아니라 ‘해도 되느냐’의 문제다
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "이슈 & 진단"
 authors: ["박상호"]
 topics: []

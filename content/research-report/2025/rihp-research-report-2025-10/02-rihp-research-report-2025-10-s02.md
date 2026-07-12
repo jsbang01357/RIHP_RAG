@@ -4,6 +4,7 @@ title: "제2장. 일본 의사인력 정책의 역사적 전개와 제도적 기
 collection: research-report
 publication_id: 2025-10
 year: 2025
+published_at: ""
 category: "chapter"
 authors: ["강태욱", "김도훈", "이충형"]
 topics: ["regional-healthcare", "physician-workforce", "medical-education", "health-insurance", "ai-and-data"]

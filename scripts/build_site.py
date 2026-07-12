@@ -38,6 +38,7 @@ def main() -> int:
                     "collection": metadata["collection"],
                     "publication_id": metadata["publication_id"],
                     "year": source.get("year", ""),
+                    "published_at": metadata.get("published_at") or source.get("published_at", ""),
                     "pdf_page": metadata["pdf_page"],
                     "authors": metadata.get("authors", []),
                     "topics": metadata.get("topics", []),

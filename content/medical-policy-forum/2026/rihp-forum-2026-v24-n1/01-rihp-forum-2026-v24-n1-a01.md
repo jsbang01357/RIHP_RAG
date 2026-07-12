@@ -4,6 +4,7 @@ title: "특진비 폐지와 온타리오주의 의사 파업"
 collection: medical-policy-forum
 publication_id: v24-n1
 year: 2026
+published_at: ""
 category: "시론"
 authors: ["안덕선"]
 topics: ["regional-healthcare", "health-insurance"]
