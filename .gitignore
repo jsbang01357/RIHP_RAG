@@ -11,3 +11,6 @@ __pycache__/
 # 선택적 로컬 검색 인덱스
 *.sqlite3
 *.faiss
+
+# Pages 빌드에서 생성하는 다운로드 패키지
+site/downloads/

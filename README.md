@@ -35,9 +35,11 @@ python3 scripts/sync_latest.py --dry-run
 python3 scripts/sync_latest.py
 python3 scripts/build_corpus.py
 python3 scripts/build_site.py
+python3 scripts/build_exports.py
 python3 scripts/build_corpus.py --input /path/to/document.pdf
 python3 scripts/test_build_corpus.py
 python3 scripts/test_sync_latest.py
+python3 scripts/test_exports.py
 python3 scripts/test_site.py
 ```
 
@@ -60,7 +62,9 @@ RIHP 게시물 URL과 직접 PDF URL이 표시됩니다.
 
 GitHub Pages는 `.github/workflows/pages.yml`에서 `main` 브랜치 변경 시 자동
 배포됩니다. 검색 인덱스는 배포 전에 `scripts/build_site.py`로 다시 생성하고
-`scripts/test_site.py`로 RIHP 링크와 로컬 경로 누출을 검사합니다.
+ChatGPT용 분할 TXT와 `rihp-rag-chatgpt.zip`은 `scripts/build_exports.py`로 생성합니다.
+`scripts/test_exports.py`와 `scripts/test_site.py`가 청크 누락, PDF 혼입, RIHP 링크와
+로컬 경로 누출을 검사합니다. 생성 ZIP은 Git 이력에는 넣지 않고 Pages 빌드 산출물로만 제공합니다.
 
 ## 품질 상태
 

@@ -9,8 +9,8 @@
     />
     <meta name="theme-color" content="#15223a" />
     <title>RIHP Policy Finder</title>
-    <link rel="stylesheet" href="./styles.css?v=20260712" />
-    <script src="./app.js?v=20260712" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=20260712-rag" />
+    <script src="./app.js?v=20260712-rag" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -70,6 +70,35 @@
         <div><strong id="unitCount">-</strong><span>문서 단위</span></div>
         <div><strong id="chunkCount">-</strong><span>검색 조각</span></div>
         <p>서버 전송 없이 브라우저 안에서 검색합니다.</p>
+      </section>
+
+      <section class="rag-download" aria-labelledby="rag-download-title">
+        <div class="rag-download-copy">
+          <p class="eyebrow">DOWNLOADABLE RAG</p>
+          <h2 id="rag-download-title">ChatGPT에 의료정책 자료를<br />한 번에 참고시키세요.</h2>
+          <p>
+            최신 Markdown, 출처 메타데이터, RAG 청크를 하나의 ZIP으로 제공합니다.
+            압축을 푼 뒤 <code>chatgpt/rihp-rag-part-*.txt</code> 파일을 모두 ChatGPT
+            대화나 프로젝트에 업로드하세요.
+          </p>
+          <div class="rag-download-actions">
+            <a class="download-primary" href="./downloads/rihp-rag-chatgpt.zip" download>
+              ChatGPT용 RAG ZIP 받기
+            </a>
+            <a href="./downloads/README_CHATGPT.md" target="_blank" rel="noopener noreferrer">
+              사용 안내 보기
+            </a>
+          </div>
+        </div>
+        <div class="rag-steps" aria-label="ChatGPT RAG 사용 순서">
+          <ol>
+            <li><strong>1</strong><span>ZIP 다운로드</span></li>
+            <li><strong>2</strong><span>압축 해제</span></li>
+            <li><strong>3</strong><span>TXT 전체 업로드</span></li>
+            <li><strong>4</strong><span>출처 포함 질문</span></li>
+          </ol>
+          <p>새 발간물이 추가될 때마다 Pages 배포에서 자동으로 최신 패키지를 다시 만듭니다.</p>
+        </div>
       </section>
 
       <section class="explorer" aria-labelledby="results-title">
