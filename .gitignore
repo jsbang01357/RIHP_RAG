@@ -4,6 +4,7 @@
 
 # 생성 중간물
 tmp/
+.wrangler/
 __pycache__/
 *.pyc
 .DS_Store

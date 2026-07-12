@@ -16,7 +16,12 @@ def main() -> int:
         assert (ROOT / "site" / name).exists(), f"missing site/{name}"
     assert (ROOT / "site" / "downloads" / "rihp-rag-chatgpt.zip").exists()
     html = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    app = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
     assert "./downloads/rihp-rag-chatgpt.zip" in html
+    assert "RIHP ${board} #${recordId} 보기" in app
+    assert 'research_report: "연구보고서"' in app
+    assert "원문 PDF ↗" not in app
+    assert 'rel="noopener noreferrer">RIHP' not in app
 
     payload = json.loads((ROOT / "site" / "search-index.json").read_text(encoding="utf-8"))
     items = payload["items"]

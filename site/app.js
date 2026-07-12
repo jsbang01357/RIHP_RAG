@@ -6,6 +6,13 @@ const COLLECTION_LABELS = {
   "annual-report": "연례보고서",
 };
 
+const BOARD_LABELS = {
+  annual: "연례보고서",
+  policy_analysis: "정책현안·이슈브리핑",
+  publication_forum: "계간 의료정책포럼",
+  research_report: "연구보고서",
+};
+
 const state = {
   items: [],
   query: "",
@@ -44,6 +51,18 @@ function safeLink(value) {
     return url.protocol === "https:" && url.hostname === "rihp.re.kr" ? url.href : "#";
   } catch {
     return "#";
+  }
+}
+
+function sourceLabel(value) {
+  try {
+    const url = new URL(value);
+    const boardId = url.searchParams.get("bo_table");
+    const board = BOARD_LABELS[boardId] || boardId || "게시물";
+    const recordId = url.searchParams.get("wr_id");
+    return recordId ? `RIHP ${board} #${recordId} 보기 ↗` : "RIHP 게시물 보기 ↗";
+  } catch {
+    return "RIHP 게시물 보기 ↗";
   }
 }
 
@@ -88,7 +107,6 @@ function resultCard(item, terms) {
   const collection = COLLECTION_LABELS[item.collection] || item.collection;
   const authors = item.authors?.length ? item.authors.join(" · ") : "저자 정보 확인 중";
   const sourceUrl = safeLink(item.source_url);
-  const pdfUrl = safeLink(item.pdf_url);
   const dateLabel = item.published_at || item.year;
   return `
     <article class="result-card">
@@ -101,8 +119,7 @@ function resultCard(item, terms) {
       <p class="byline">${escapeHtml(authors)} · ${escapeHtml(item.publication_id)}</p>
       <p class="excerpt">${highlight(excerptFor(item.text, terms), terms)}</p>
       <div class="result-actions">
-        <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer">RIHP 게시물 ↗</a>
-        <a href="${pdfUrl}" target="_blank" rel="noopener noreferrer">원문 PDF ↗</a>
+        <a href="${sourceUrl}" target="_blank" rel="noopener">${escapeHtml(sourceLabel(sourceUrl))}</a>
       </div>
     </article>`;
 }

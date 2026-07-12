@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the browser search index consumed by the static GitHub Pages site."""
+"""Build the browser search index consumed by the static search site."""
 
 from __future__ import annotations
 
