@@ -1,0 +1,7 @@
+source_id,collection,title,publication_id,pages,bytes,sha256,source_file,status
+failed-5c4452d325,unknown,CMS-HCC+문제점+분석_이슈브리핑+15호,,,942080,0a52c63808e02609d0e94bd5a83139e45da357cf0eb6cf980504820ae9985881,CMS-HCC+문제점+분석_이슈브리핑+15호.pdf,failed
+rihp-research-report-2025-10,research-report,일본의 의사 수 결정을 위한 정책과정 분석,2025-10,182,1633860,2955b7090ed952f9e1d370dba80ec5b7094727b41afe22de3f0922b1d0685450,[KMA+RIHP+연구보고2025-10]+일본의+의사+수+결정+정책과정+분석.pdf,extracted-needs-review
+rihp-forum-2025-v23-n4,medical-policy-forum,계간의료정책포럼 제23권 4호,v23-n4,76,6637823,784fe405f63dca67b9a2f2805098e03b66ffc0dcb2a01b5b72e728122c0fe4a2,[KMA+RIHP]+계간의료정책포럼_23권+4호.pdf,extracted-needs-review
+rihp-forum-2026-v24-n1,medical-policy-forum,계간의료정책포럼 제24권 1호,v24-n1,68,5540364,08c1b96ea31a3663ab51e6c6408b8bdf57406b5612295db006a4999292b38c40,[KMA+RIHP]+계간의료정책포럼_24권+1호_내지.pdf,extracted-needs-review
+rihp-policy-analysis-2025-06,policy-analysis,거점의료기관 지정 제도 개선 방안 연구,2025-06,61,2041700,cdf80336c34ee5fab47d63970fc2860bd53006e969e38132e6127fc6d5e173d8,[KMA+RIHP_정책현안분석2025-06]+거점의료기관+지정+제도+개선방안+연구.pdf,extracted-needs-review
+rihp-policy-analysis-2025-07,policy-analysis,한국 의사의 근무시간,2025-07,50,1507396,d9dd750b378883d93f3bf1306cbe21a10d464b03716be484d3050f648a809bb2,[KMA+RIHP_정책현안분석2025-07]+한국+의사의+근무시간.pdf,extracted-needs-review

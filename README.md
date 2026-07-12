@@ -1,0 +1,58 @@
+# RIHP Policy Knowledge Base
+
+의료정책연구원(RIHP) 공개 발간물을 출처 추적 가능한 Markdown 지식베이스와
+재생성 가능한 RAG 코퍼스로 정리하는 비상업적 파일럿입니다.
+
+## 설계 원칙
+
+- 원본 PDF와 사람이 읽는 Markdown을 분리합니다.
+- 계간지는 기사 단위, 연구·정책 보고서는 장 단위로 나눕니다.
+- 모든 본문은 PDF 물리 페이지를 보존합니다.
+- AI 요약과 기관의 공식 견해를 혼동하지 않습니다.
+- 콘텐츠 권리와 코드 라이선스를 분리합니다.
+- 벡터 DB나 특정 AI 공급자에 종속되지 않습니다.
+
+## 폴더
+
+- `content/`: 사람이 읽는 정규화 Markdown
+- `wiki/topics/`: 주제별 진입점과 문서 연결
+- `rag/chunks.jsonl`: 검색·임베딩용 재생성 산출물
+- `sources/manifest.csv`: 원본 식별자, 해시, 페이지 수
+- `qa/extraction-report.csv`: 손상, 빈 페이지, 표, 중복 글자 검사
+- `scripts/`: 변환 및 검증 코드
+- `tasks/`: 작업 기록과 교훈
+
+원본 PDF는 저장소 최상위 또는 외부 경로에 둘 수 있지만 Git에는 포함하지 않습니다.
+
+## 파일럿 빌드
+
+Codex 번들 Python을 사용하는 예시입니다.
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 scripts/build_corpus.py
+python3 scripts/build_corpus.py --input /path/to/document.pdf
+python3 scripts/test_build_corpus.py
+```
+
+인자를 생략하면 저장소 아래의 PDF를 재귀적으로 찾습니다. 여러 `--input`을 함께
+사용할 수 있습니다. 산출물은 입력 PDF에서 언제든 다시 만들 수 있습니다.
+
+현재 로컬 파일럿 PDF는 `sources/pdfs/`와 저장소 최상위에 있으며 `.gitignore`로
+Git 커밋에서 제외됩니다.
+
+## 품질 상태
+
+현재 생성되는 본문은 `machine-extracted-needs-review` 상태입니다. 다음 항목은 사람의
+확인이 끝나기 전 공식 배포본으로 간주하지 않습니다.
+
+- 표와 병합 셀
+- 그림 안의 텍스트
+- 큰 제목의 중복 글자
+- 기사 또는 장의 경계
+- 저자명, 발행일, 기관 공식 견해 여부
+
+## 권리
+
+코드와 콘텐츠의 권리 범위는 다릅니다. 공개 저장소로 전환하기 전에 `RIGHTS.md`를
+확인하고 권리자의 서면 허락 범위를 기록해야 합니다.

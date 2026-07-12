@@ -1,0 +1,13 @@
+# 로컬 원본과 미완료 다운로드
+*.pdf
+*.pdf.download/
+
+# 생성 중간물
+tmp/
+__pycache__/
+*.pyc
+.DS_Store
+
+# 선택적 로컬 검색 인덱스
+*.sqlite3
+*.faiss
