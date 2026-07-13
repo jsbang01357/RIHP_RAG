@@ -11,13 +11,17 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> int:
-    required = ["index.html", "styles.css", "app.js", "search-index.json", ".nojekyll"]
+    required = ["index.html", "styles.css", "app.js", "search.mjs", "search-index.json", ".nojekyll"]
     for name in required:
         assert (ROOT / "site" / name).exists(), f"missing site/{name}"
     assert (ROOT / "site" / "downloads" / "rihp-rag-chatgpt.zip").exists()
     html = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
     app = (ROOT / "site" / "app.js").read_text(encoding="utf-8")
     assert "./downloads/rihp-rag-chatgpt.zip" in html
+    assert 'type="module"' in html
+    assert 'from "./search.mjs"' in app
+    assert '"compositionstart"' in app
+    assert '"compositionend"' in app
     assert "RIHP ${board} #${recordId} 보기" in app
     assert 'research_report: "연구보고서"' in app
     assert "원문 PDF ↗" not in app

@@ -27,3 +27,6 @@ jobs:
 
       - name: Validate static site
         run: python3 scripts/test_site.py
+
+      - name: Validate search behavior
+        run: node scripts/test_search_logic.mjs

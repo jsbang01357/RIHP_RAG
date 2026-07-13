@@ -1,3 +1,5 @@
+import { normalize, scoreItem, searchGroupsFor, termsFor } from "./search.mjs";
+
 const COLLECTION_LABELS = {
   "medical-policy-forum": "계간 의료정책포럼",
   "policy-analysis": "정책현안분석",
@@ -42,8 +44,6 @@ const escapeHtml = (value) =>
     .replaceAll("'", "&#039;");
 
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-const normalize = (value) => String(value || "").normalize("NFC").toLocaleLowerCase("ko");
-const termsFor = (query) => [...new Set(normalize(query).split(/\s+/).filter(Boolean))];
 
 function safeLink(value) {
   try {
@@ -84,26 +84,7 @@ function excerptFor(text, terms) {
   return `${start ? "…" : ""}${clean.slice(start, end)}${end < clean.length ? "…" : ""}`;
 }
 
-function scoreItem(item, terms, fullQuery) {
-  const title = normalize(item.title);
-  const authors = normalize((item.authors || []).join(" "));
-  const topics = normalize((item.topics || []).join(" "));
-  const text = normalize(item.text);
-  const combined = `${title} ${authors} ${topics} ${text}`;
-  if (!terms.every((term) => combined.includes(term))) return 0;
-
-  let score = 1;
-  for (const term of terms) {
-    if (title.includes(term)) score += 60;
-    if (authors.includes(term)) score += 28;
-    if (topics.includes(term)) score += 18;
-    score += Math.min(12, text.split(term).length - 1) * 3;
-  }
-  if (fullQuery && text.includes(fullQuery)) score += 24;
-  return score;
-}
-
-function resultCard(item, terms) {
+function resultCard(item, terms, searchTerms) {
   const collection = COLLECTION_LABELS[item.collection] || item.collection;
   const authors = item.authors?.length ? item.authors.join(" · ") : "저자 정보 확인 중";
   const sourceUrl = safeLink(item.source_url);
@@ -117,7 +98,7 @@ function resultCard(item, terms) {
       </div>
       <h3>${highlight(item.title, terms)}</h3>
       <p class="byline">${escapeHtml(authors)} · ${escapeHtml(item.publication_id)}</p>
-      <p class="excerpt">${highlight(excerptFor(item.text, terms), terms)}</p>
+      <p class="excerpt">${highlight(excerptFor(item.text, searchTerms), terms)}</p>
       <div class="result-actions">
         <a href="${sourceUrl}" target="_blank" rel="noopener">${escapeHtml(sourceLabel(sourceUrl))}</a>
       </div>
@@ -126,6 +107,8 @@ function resultCard(item, terms) {
 
 function render() {
   const terms = termsFor(state.query);
+  const searchGroups = searchGroupsFor(terms);
+  const searchTerms = [...new Set(searchGroups.flat())];
   const fullQuery = normalize(state.query.trim());
   elements.clear.hidden = !state.query && !state.collection && !state.year;
 
@@ -142,7 +125,10 @@ function render() {
   const ranked = state.items
     .filter((item) => !state.collection || item.collection === state.collection)
     .filter((item) => !state.year || item.year === state.year)
-    .map((item) => ({ item, score: terms.length ? scoreItem(item, terms, fullQuery) : 1 }))
+    .map((item) => ({
+      item,
+      score: terms.length ? scoreItem(item, searchGroups, fullQuery) : 1,
+    }))
     .filter((entry) => entry.score > 0)
     .sort(
       (a, b) =>
@@ -166,13 +152,13 @@ function render() {
 
   elements.status.textContent = `${deduped.length.toLocaleString("ko-KR")}개의 관련 페이지를 찾았습니다.`;
   elements.results.innerHTML = deduped.length
-    ? deduped.map((item) => resultCard(item, terms)).join("")
+    ? deduped.map((item) => resultCard(item, terms, searchTerms)).join("")
     : `<div class="empty-state"><strong>일치하는 결과가 없습니다.</strong>검색어를 줄이거나 자료 유형을 전체로 바꿔보세요.</div>`;
 }
 
-function updateQuery(value, pushState = true) {
+function updateQuery(value, pushState = true, syncInput = true) {
   state.query = value.trim();
-  elements.input.value = value;
+  if (syncInput) elements.input.value = value;
   if (pushState) {
     const url = new URL(window.location.href);
     state.query ? url.searchParams.set("q", state.query) : url.searchParams.delete("q");
@@ -200,13 +186,24 @@ function populateFilters() {
 
 elements.form.addEventListener("submit", (event) => {
   event.preventDefault();
-  updateQuery(elements.input.value);
+  updateQuery(elements.input.value, true, false);
 });
 
 let debounce;
-elements.input.addEventListener("input", () => {
+let composing = false;
+elements.input.addEventListener("compositionstart", () => {
+  composing = true;
   window.clearTimeout(debounce);
-  debounce = window.setTimeout(() => updateQuery(elements.input.value), 140);
+});
+elements.input.addEventListener("compositionend", () => {
+  composing = false;
+  window.clearTimeout(debounce);
+  updateQuery(elements.input.value, true, false);
+});
+elements.input.addEventListener("input", (event) => {
+  if (composing || event.isComposing) return;
+  window.clearTimeout(debounce);
+  debounce = window.setTimeout(() => updateQuery(elements.input.value, true, false), 140);
 });
 
 elements.collection.addEventListener("change", () => {
