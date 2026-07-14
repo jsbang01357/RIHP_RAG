@@ -25,6 +25,10 @@ def main() -> int:
     assert 'class="page-hit"' in app
     assert '"compositionstart"' in app
     assert '"compositionend"' in app
+    assert 'class="sidebar"' in html
+    assert 'data-view="archive"' in html
+    assert 'data-view-panel="downloads"' in html
+    assert "function setView" in app
     assert "RIHP ${board} #${recordId} 보기" in app
     assert 'research_report: "연구보고서"' in app
     assert "원문 PDF ↗" not in app

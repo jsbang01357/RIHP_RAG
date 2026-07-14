@@ -23,6 +23,7 @@ const BOARD_LABELS = {
 
 const state = {
   items: [],
+  view: "search",
   query: "",
   collection: "",
   year: "",
@@ -41,6 +42,8 @@ const elements = {
   documentCount: document.querySelector("#documentCount"),
   unitCount: document.querySelector("#unitCount"),
   chunkCount: document.querySelector("#chunkCount"),
+  sidebarDocumentCount: document.querySelector("#sidebarDocumentCount"),
+  sidebarChunkCount: document.querySelector("#sidebarChunkCount"),
   ragAnswer: document.querySelector("#ragAnswer"),
   ragMode: document.querySelector("#ragMode"),
   ragStatus: document.querySelector("#ragStatus"),
@@ -266,6 +269,28 @@ function render() {
     : `<div class="empty-state"><strong>일치하는 결과가 없습니다.</strong>검색어를 줄이거나 자료 유형을 전체로 바꿔보세요.</div>`;
 }
 
+const VIEWS = new Set(["search", "archive", "downloads", "guide"]);
+
+function setView(view, { updateAddress = true, push = false, scroll = true } = {}) {
+  state.view = VIEWS.has(view) ? view : "search";
+  document.querySelectorAll("[data-view-panel]").forEach((panel) => {
+    panel.hidden = panel.dataset.viewPanel !== state.view;
+  });
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    const active = button.dataset.view === state.view;
+    button.classList.toggle("active", active);
+    if (active) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+  });
+  if (updateAddress) {
+    const url = new URL(window.location.href);
+    if (state.view === "search") url.searchParams.delete("view");
+    else url.searchParams.set("view", state.view);
+    history[push ? "pushState" : "replaceState"](null, "", url);
+  }
+  if (scroll) window.scrollTo({ top: 0, behavior: "auto" });
+}
+
 function updateQuery(value, pushState = true, syncInput = true) {
   const nextQuery = value.trim();
   if (nextQuery !== state.query) clearRagAnswer();
@@ -298,6 +323,7 @@ function populateFilters() {
 
 elements.form.addEventListener("submit", (event) => {
   event.preventDefault();
+  setView("search", { scroll: false });
   updateQuery(elements.input.value, true, false);
   requestRagAnswer(state.query);
 });
@@ -345,11 +371,25 @@ document.querySelectorAll("[data-query]").forEach((button) => {
   });
 });
 
+document.querySelectorAll("[data-view]").forEach((button) => {
+  button.addEventListener("click", () => setView(button.dataset.view, { push: true }));
+});
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== elements.input) {
     event.preventDefault();
+    if (state.view !== "search") setView("search", { push: true, scroll: false });
     elements.input.focus();
   }
+});
+
+window.addEventListener("popstate", () => {
+  const url = new URL(window.location.href);
+  const requestedView = VIEWS.has(url.searchParams.get("view"))
+    ? url.searchParams.get("view")
+    : "search";
+  updateQuery(url.searchParams.get("q") || "", false);
+  setView(requestedView, { updateAddress: false });
 });
 
 async function boot() {
@@ -361,9 +401,16 @@ async function boot() {
     elements.documentCount.textContent = payload.stats.documents.toLocaleString("ko-KR");
     elements.unitCount.textContent = payload.stats.units.toLocaleString("ko-KR");
     elements.chunkCount.textContent = payload.stats.chunks.toLocaleString("ko-KR");
+    elements.sidebarDocumentCount.textContent = payload.stats.documents.toLocaleString("ko-KR");
+    elements.sidebarChunkCount.textContent = payload.stats.chunks.toLocaleString("ko-KR");
     populateFilters();
-    const initialQuery = new URL(window.location.href).searchParams.get("q") || "";
+    const url = new URL(window.location.href);
+    const initialQuery = url.searchParams.get("q") || "";
+    const requestedView = VIEWS.has(url.searchParams.get("view"))
+      ? url.searchParams.get("view")
+      : "search";
     updateQuery(initialQuery, false);
+    setView(initialQuery ? "search" : requestedView, { updateAddress: false, scroll: false });
   } catch (error) {
     elements.status.textContent = "검색 데이터를 불러오지 못했습니다.";
     elements.results.innerHTML = `<div class="empty-state"><strong>데이터 로드 실패</strong>${escapeHtml(error.message)}</div>`;

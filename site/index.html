@@ -7,165 +7,206 @@
       name="description"
       content="의료정책연구원 공개 PDF를 Haystack 하이브리드 RAG로 탐색하고 발간물·페이지 근거가 있는 답변을 제공하는 도구"
     />
-    <meta name="theme-color" content="#15223a" />
+    <meta name="theme-color" content="#172724" />
     <title>RIHP Policy Finder</title>
-    <link rel="stylesheet" href="./styles.css?v=20260714-haystack-gcp" />
-    <script type="module" src="./app.js?v=20260714-haystack-gcp"></script>
+    <link rel="stylesheet" href="./styles.css?v=20260714-sidebar-1" />
+    <script type="module" src="./app.js?v=20260714-sidebar-1"></script>
   </head>
   <body>
-    <header class="site-header">
-      <a class="brand" href="./" aria-label="RIHP Policy Finder 홈">
-        <span class="brand-mark">R</span>
-        <span>
-          <strong>RIHP Policy Finder</strong>
-          <small>의료정책 지식 탐색기</small>
-        </span>
-      </a>
-      <nav aria-label="외부 링크">
-        <a href="https://rihp.re.kr" target="_blank" rel="noopener noreferrer">RIHP</a>
-        <a
-          href="https://github.com/jsbang01357/RIHP_RAG"
-          target="_blank"
-          rel="noopener noreferrer"
-        >GitHub</a>
-      </nav>
-    </header>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="./" aria-label="RIHP Policy Finder 홈">
+          <span class="brand-mark" aria-hidden="true">R</span>
+          <span>
+            <strong>RIHP Policy Finder</strong>
+            <small>의료정책 지식 탐색기</small>
+          </span>
+        </a>
 
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <p class="eyebrow">FULL-TEXT POLICY EXPLORER</p>
-        <h1 id="hero-title">제목 검색을 넘어,<br />PDF 본문 근거까지.</h1>
-        <p class="hero-copy">
-          PDF 본문 전체를 직접 검색하고, 질문형 검색에는 Haystack과 Vertex AI가
-          발간물·PDF 페이지 근거를 묶어 답합니다. 모든 답변은 RIHP 원문으로 다시 확인할 수 있습니다.
-        </p>
+        <nav class="side-nav" aria-label="주요 기능">
+          <button class="active" type="button" data-view="search" aria-current="page">
+            <span>01</span>근거 검색
+          </button>
+          <button type="button" data-view="archive"><span>02</span>자료 현황</button>
+          <button type="button" data-view="downloads"><span>03</span>RAG 다운로드</button>
+          <button type="button" data-view="guide"><span>04</span>이용 안내</button>
+        </nav>
 
-        <form id="searchForm" class="search-panel" role="search">
-          <label class="search-field" for="searchInput">
-            <span class="search-icon" aria-hidden="true">⌕</span>
-            <input
-              id="searchInput"
-              name="q"
-              type="search"
-              autocomplete="off"
-              placeholder="예: 의사 수를 늘리면 지역의료가 좋아지나?"
-            />
-            <kbd>/</kbd>
-          </label>
-          <button type="submit">검색·AI 답변</button>
-        </form>
-
-        <div class="suggestions" aria-label="추천 검색어">
-          <span>추천</span>
-          <button type="button" data-query="지역의료">지역의료</button>
-          <button type="button" data-query="의사 근무시간">의사 근무시간</button>
-          <button type="button" data-query="평생교육 CPD">평생교육·CPD</button>
-          <button type="button" data-query="CMS-HCC">CMS-HCC</button>
-          <button type="button" data-query="인공지능 의료">의료 AI</button>
+        <div class="sidebar-summary" aria-label="수록 자료 요약">
+          <span>현재 아카이브</span>
+          <strong><b id="sidebarDocumentCount">-</b>개 발간물</strong>
+          <small><b id="sidebarChunkCount">-</b>개 본문 조각</small>
         </div>
 
-        <div class="search-capabilities" aria-label="검색 기능">
-          <span><strong>본문 전체</strong> PDF 속 문장 검색</span>
-          <span><strong>발간물 묶음</strong> 중복 결과 정리</span>
-          <span><strong>페이지 근거</strong> 정확한 PDF 쪽수</span>
-          <span><strong>질문형 RAG</strong> 근거 번호가 있는 AI 답변</span>
+        <div class="sidebar-links">
+          <a href="https://rihp.re.kr" target="_blank" rel="noopener noreferrer">RIHP 원문 사이트 ↗</a>
+          <a href="https://github.com/jsbang01357/RIHP_RAG" target="_blank" rel="noopener noreferrer">GitHub 저장소 ↗</a>
         </div>
-
-        <section id="ragAnswer" class="rag-answer" aria-labelledby="ragAnswerTitle" hidden>
-          <div class="rag-answer-head">
-            <div>
-              <span>HAYSTACK HYBRID RAG</span>
-              <h2 id="ragAnswerTitle">의료정책 근거 답변</h2>
-            </div>
-            <p id="ragMode">Haystack BM25 + Vertex 의미 검색</p>
-          </div>
-          <p id="ragStatus" class="rag-status" aria-live="polite"></p>
-          <div id="ragText" class="rag-text"></div>
-          <div id="ragSources" class="rag-sources" aria-label="AI 답변 근거 발간물"></div>
-        </section>
-      </section>
-
-      <section class="archive-stats" aria-label="아카이브 통계">
-        <div><strong id="documentCount">-</strong><span>발간물</span></div>
-        <div><strong id="unitCount">-</strong><span>문서 단위</span></div>
-        <div><strong id="chunkCount">-</strong><span>검색 조각</span></div>
-        <p>본문 검색은 브라우저에서, 질문형 근거 답변은 GCP Cloud Run에서 처리합니다.</p>
-      </section>
-
-      <section class="rag-download" aria-labelledby="rag-download-title">
-        <div class="rag-download-copy">
-          <p class="eyebrow">DOWNLOADABLE RAG</p>
-          <h2 id="rag-download-title">ChatGPT에 의료정책 자료를<br />한 번에 참고시키세요.</h2>
-          <p>
-            최신 Markdown, 출처 메타데이터, RAG 청크를 하나의 ZIP으로 제공합니다.
-            압축을 푼 뒤 <code>chatgpt/rihp-rag-part-*.txt</code> 파일을 모두 ChatGPT
-            대화나 프로젝트에 업로드하세요.
-          </p>
-          <div class="rag-download-actions">
-            <a class="download-primary" href="./downloads/rihp-rag-chatgpt.zip" download>
-              ChatGPT용 RAG ZIP 받기
-            </a>
-            <a href="./downloads/README_CHATGPT.md" target="_blank" rel="noopener noreferrer">
-              사용 안내 보기
-            </a>
-          </div>
-        </div>
-        <div class="rag-steps" aria-label="ChatGPT RAG 사용 순서">
-          <ol>
-            <li><strong>1</strong><span>ZIP 다운로드</span></li>
-            <li><strong>2</strong><span>압축 해제</span></li>
-            <li><strong>3</strong><span>TXT 전체 업로드</span></li>
-            <li><strong>4</strong><span>출처 포함 질문</span></li>
-          </ol>
-          <p>새 발간물이 추가될 때마다 배포 빌드에서 최신 패키지를 다시 만듭니다.</p>
-        </div>
-      </section>
-
-      <section class="explorer" aria-labelledby="results-title">
-        <div class="explorer-head">
-          <div>
-            <p class="eyebrow">SEARCH RESULTS</p>
-            <h2 id="results-title">발간물별 검색 결과</h2>
-            <p class="explorer-note">
-              같은 발간물은 하나로 묶고, 관련 PDF 페이지를 근거 문장과 함께 표시합니다.
-            </p>
-          </div>
-          <div class="filters">
-            <label>
-              <span>자료 유형</span>
-              <select id="collectionFilter">
-                <option value="">전체 자료</option>
-              </select>
-            </label>
-            <label>
-              <span>발행연도</span>
-              <select id="yearFilter">
-                <option value="">전체 연도</option>
-              </select>
-            </label>
-          </div>
-        </div>
-
-        <div class="result-summary" aria-live="polite">
-          <p id="resultStatus">검색 데이터를 불러오는 중입니다.</p>
-          <button id="clearButton" type="button" hidden>검색 초기화</button>
-        </div>
-        <div id="results" class="results" aria-live="polite"></div>
-      </section>
-
-      <aside class="notice">
-        <strong>읽기 전 확인</strong>
-        <p>
-          이 사이트는 RIHP 공개 PDF를 기계 추출한 비공식 탐색 도구입니다. 표·그림·문서 경계는
-          검수 중이며, 정책 판단과 인용에는 반드시 연결된 RIHP 원문을 확인하세요. 계간지 원고는
-          필자 개인의 견해로 연구원의 공식 입장과 다를 수 있습니다.
-        </p>
       </aside>
-    </main>
 
-    <footer>
-      <p>RIHP Policy Knowledge Base · source-traceable Haystack RAG</p>
-      <p>원문 저작권은 각 저작자와 대한의사협회 의료정책연구원에 있습니다.</p>
-    </footer>
+      <div class="page-shell">
+        <main>
+          <div data-view-panel="search">
+            <section class="hero" aria-labelledby="hero-title">
+              <p class="eyebrow">SOURCE-TRACEABLE POLICY SEARCH</p>
+              <h1 id="hero-title">궁금한 의료정책을<br /><em>PDF 근거까지.</em></h1>
+              <p class="hero-copy">
+                RIHP 공개 발간물의 제목만 찾지 않습니다. PDF 본문을 직접 검색하고,
+                Haystack과 Vertex AI가 발간물·페이지 근거를 묶어 답합니다.
+              </p>
+
+              <form id="searchForm" class="search-panel" role="search">
+                <label class="search-field" for="searchInput">
+                  <span class="search-icon" aria-hidden="true">⌕</span>
+                  <input
+                    id="searchInput"
+                    name="q"
+                    type="search"
+                    autocomplete="off"
+                    placeholder="예: 의사 수를 늘리면 지역의료가 좋아지나?"
+                  />
+                  <kbd>/</kbd>
+                </label>
+                <button type="submit">근거 찾기</button>
+              </form>
+
+              <div class="suggestions" aria-label="추천 검색어">
+                <span>빠른 검색</span>
+                <button type="button" data-query="지역의료">지역의료</button>
+                <button type="button" data-query="의사 근무시간">의사 근무시간</button>
+                <button type="button" data-query="평생교육 CPD">평생교육·CPD</button>
+                <button type="button" data-query="CMS-HCC">CMS-HCC</button>
+                <button type="button" data-query="인공지능 의료">의료 AI</button>
+              </div>
+            </section>
+
+            <section class="explorer" aria-labelledby="results-title">
+              <div class="explorer-head">
+                <div>
+                  <p class="eyebrow">POLICY EVIDENCE</p>
+                  <h2 id="results-title">발간물별 근거</h2>
+                  <p class="explorer-note">같은 발간물은 한 묶음으로 정리하고 관련 PDF 페이지를 표시합니다.</p>
+                </div>
+                <div class="filters">
+                  <label>
+                    <span>자료 유형</span>
+                    <select id="collectionFilter"><option value="">전체 자료</option></select>
+                  </label>
+                  <label>
+                    <span>발행연도</span>
+                    <select id="yearFilter"><option value="">전체 연도</option></select>
+                  </label>
+                </div>
+              </div>
+
+              <section id="ragAnswer" class="rag-answer" aria-labelledby="ragAnswerTitle" hidden>
+                <div class="rag-answer-head">
+                  <div>
+                    <span>HAYSTACK HYBRID RAG</span>
+                    <h3 id="ragAnswerTitle">의료정책 근거 답변</h3>
+                  </div>
+                  <p id="ragMode">Haystack BM25 + Vertex 의미 검색</p>
+                </div>
+                <p id="ragStatus" class="rag-status" aria-live="polite"></p>
+                <div id="ragText" class="rag-text"></div>
+                <div id="ragSources" class="rag-sources" aria-label="AI 답변 근거 발간물"></div>
+              </section>
+
+              <div class="result-summary" aria-live="polite">
+                <p id="resultStatus">검색 데이터를 불러오는 중입니다.</p>
+                <button id="clearButton" type="button" hidden>검색 초기화</button>
+              </div>
+              <div id="results" class="results" aria-live="polite"></div>
+            </section>
+          </div>
+
+          <section class="archive-view" data-view-panel="archive" aria-labelledby="archive-title" hidden>
+            <header class="view-header">
+              <p class="eyebrow">PUBLICATION ARCHIVE</p>
+              <h1 id="archive-title">자료가 얼마나,<br />어떻게 들어있나요?</h1>
+              <p>공개 PDF를 사람이 읽는 문서 단위와 검색 가능한 본문 조각으로 나누고 원문 위치를 함께 보존합니다.</p>
+            </header>
+
+            <section class="archive-stats" aria-label="아카이브 통계">
+              <div><strong id="documentCount">-</strong><span>발간물</span></div>
+              <div><strong id="unitCount">-</strong><span>문서 단위</span></div>
+              <div><strong id="chunkCount">-</strong><span>검색 조각</span></div>
+            </section>
+
+            <div class="capability-grid" aria-label="탐색 기능">
+              <article><span>01</span><h2>PDF 본문 전체</h2><p>홈페이지 제목 검색을 넘어 보고서와 계간지 안의 문장을 직접 찾습니다.</p></article>
+              <article><span>02</span><h2>발간물 묶음</h2><p>같은 문서의 여러 청크를 발간물과 PDF 페이지 기준으로 정리합니다.</p></article>
+              <article><span>03</span><h2>페이지 출처</h2><p>검색 결과와 AI 답변에 물리 PDF 페이지와 공식 게시물 링크를 남깁니다.</p></article>
+              <article><span>04</span><h2>질문형 RAG</h2><p>BM25와 Vertex 의미 검색을 결합하고 근거 번호가 있는 답변을 만듭니다.</p></article>
+            </div>
+
+            <section class="method-card" aria-labelledby="method-title">
+              <div><p class="eyebrow">HOW IT WORKS</p><h2 id="method-title">검색은 가볍게,<br />답변은 근거 중심으로.</h2></div>
+              <div class="method-list">
+                <p><strong>브라우저 검색</strong><span>다운로드된 인덱스에서 빠르게 본문을 찾습니다.</span></p>
+                <p><strong>Cloud Run RAG</strong><span>질문 임베딩만 생성해 운영비와 응답 지연을 줄입니다.</span></p>
+                <p><strong>RIHP 원문</strong><span>정책 판단과 직접 인용은 공식 게시물에서 다시 확인합니다.</span></p>
+              </div>
+            </section>
+          </section>
+
+          <section class="download-view" data-view-panel="downloads" aria-labelledby="download-title" hidden>
+            <header class="view-header">
+              <p class="eyebrow">PORTABLE POLICY CORPUS</p>
+              <h1 id="download-title">의료정책 자료를<br />내 AI에도 연결하세요.</h1>
+              <p>Markdown, 출처 메타데이터, RAG 청크를 한 번에 받아 ChatGPT 프로젝트나 개인 검색 환경에서 활용할 수 있습니다.</p>
+            </header>
+
+            <section class="rag-download" aria-labelledby="rag-download-title">
+              <div class="rag-download-copy">
+                <span class="file-type">RAG ZIP</span>
+                <h2 id="rag-download-title">ChatGPT용 분할 패키지</h2>
+                <p>
+                  압축을 푼 뒤 <code>chatgpt/rihp-rag-part-*.txt</code> 파일을 모두 업로드하세요.
+                  각 본문에는 발간물·PDF 페이지·RIHP 원문 주소가 함께 들어 있습니다.
+                </p>
+                <div class="rag-download-actions">
+                  <a class="download-primary" href="./downloads/rihp-rag-chatgpt.zip" download>RAG ZIP 받기 <span>↓</span></a>
+                  <a href="./downloads/README_CHATGPT.md" target="_blank" rel="noopener noreferrer">사용 안내</a>
+                </div>
+              </div>
+              <ol class="rag-steps" aria-label="ChatGPT RAG 사용 순서">
+                <li><strong>1</strong><span><b>ZIP 다운로드</b><small>최신 패키지를 받습니다.</small></span></li>
+                <li><strong>2</strong><span><b>압축 해제</b><small>분할 TXT를 확인합니다.</small></span></li>
+                <li><strong>3</strong><span><b>전체 업로드</b><small>ChatGPT 프로젝트에 넣습니다.</small></span></li>
+                <li><strong>4</strong><span><b>출처 포함 질문</b><small>원문 페이지와 함께 답을 받습니다.</small></span></li>
+              </ol>
+            </section>
+          </section>
+
+          <section class="guide-view" data-view-panel="guide" aria-labelledby="guide-title" hidden>
+            <header class="view-header">
+              <p class="eyebrow">READ BEFORE USE</p>
+              <h1 id="guide-title">찾고, 읽고,<br />원문에서 확인하세요.</h1>
+              <p>이 서비스는 공개 발간물에 빠르게 접근하기 위한 비공식 탐색 도구입니다.</p>
+            </header>
+
+            <div class="guide-steps">
+              <article><strong>1</strong><div><h2>질문하거나 검색하기</h2><p>일반 문장이나 관심 키워드를 입력합니다.</p></div></article>
+              <article><strong>2</strong><div><h2>PDF 페이지 읽기</h2><p>AI 답변 아래 근거 카드와 발간물별 일치 페이지를 확인합니다.</p></div></article>
+              <article><strong>3</strong><div><h2>RIHP 원문 확인하기</h2><p>정책 판단과 인용 전에는 공식 게시물과 PDF를 직접 대조합니다.</p></div></article>
+            </div>
+
+            <aside class="notice">
+              <strong>꼭 확인해 주세요</strong>
+              <p>
+                공개 PDF를 기계 추출한 자료이므로 표·그림·문서 경계에는 오류가 있을 수 있습니다.
+                계간지 원고는 필자 개인의 견해로 연구원의 공식 입장과 다를 수 있습니다.
+              </p>
+            </aside>
+          </section>
+        </main>
+
+        <footer>
+          <p>RIHP Policy Knowledge Base · source-traceable Haystack RAG</p>
+          <p>원문 저작권은 각 저작자와 대한의사협회 의료정책연구원에 있습니다.</p>
+        </footer>
+      </div>
+    </div>
   </body>
 </html>

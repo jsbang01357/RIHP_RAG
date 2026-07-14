@@ -2,12 +2,13 @@
 
 ## 진행 중
 
-- [ ] `rihp.jisong.dev`의 CNAME을 `ghs.googlehosted.com`으로 바꾸고 Cloud Run 인증서를 확인한다.
 - [ ] 표·그림·중복 글자·문서 경계를 검수한다.
 - [ ] 권리자의 서면 공개 범위 확인 내용을 기록한다.
 
 ## 완료
 
+- [x] `rihp.jisong.dev`의 Cloud Run 연결과 HTTPS 인증서를 실제 브라우저에서 확인했다.
+- [x] BibleFrame 방식을 참고해 검색·자료 현황·RAG 다운로드·이용 안내를 사이드바 화면으로 분리하고 반응형 동작을 검증했다.
 - [x] 1,846개 Haystack 문서와 256차원 Vertex 임베딩을 생성했다.
 - [x] Haystack BM25·Vertex 의미 검색을 결합하고 발간물·PDF 페이지 중복을 제거했다.
 - [x] 질문형 AI 답변에 근거 번호, PDF 페이지, RIHP 원문 링크를 연결했다.
@@ -46,4 +47,4 @@
 - Haystack 인덱스: 문서 1,846개, Vertex 임베딩 1,846개, 256차원
 - GCP 서비스: Cloud Run `rihp-rag`, 하이브리드 검색·Qwen 근거 답변 정상
 - 단위 테스트: Python 코퍼스·Haystack·검색 회귀·발간물·페이지 중복 방지 검사 통과
-- 사이트: 정적 검색, 질문형 답변, PDF 페이지 표기, RIHP 원문 링크 검증 완료
+- 사이트: 사이드바 분리 화면, 정적 검색, 질문형 답변, PDF 페이지 표기, RIHP 원문 링크 검증 완료
