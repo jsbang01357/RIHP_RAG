@@ -4,9 +4,12 @@
 
 # 생성 중간물
 tmp/
+.wrangler/
+.venv*/
 __pycache__/
 *.pyc
 .DS_Store
+rag/.haystack_embeddings.checkpoint.jsonl
 
 # 선택적 로컬 검색 인덱스
 *.sqlite3

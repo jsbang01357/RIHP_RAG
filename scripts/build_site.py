@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the browser search index consumed by the static GitHub Pages site."""
+"""Build the browser search index consumed by the static search site."""
 
 from __future__ import annotations
 
@@ -35,6 +35,7 @@ def main() -> int:
                     "unit_id": metadata["unit_id"],
                     "source_id": metadata["source_id"],
                     "title": metadata["title"],
+                    "publication_title": source.get("title", "") or metadata["title"],
                     "collection": metadata["collection"],
                     "publication_id": metadata["publication_id"],
                     "year": source.get("year", ""),

@@ -1,0 +1,14 @@
+.git
+.github
+.venv*
+*.pdf
+content
+qa
+sources
+tmp
+.wrangler
+rag/chunks.jsonl
+rag/.haystack_embeddings.checkpoint.jsonl
+__pycache__
+*.pyc
+.DS_Store
