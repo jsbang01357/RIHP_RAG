@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { scoreItem, searchGroupsFor, termsFor } from "../site/search.mjs";
+import {
+  groupRankedResults,
+  scoreItem,
+  searchGroupsFor,
+  termsFor,
+} from "../site/search.mjs";
 
 const payload = JSON.parse(
   readFileSync(new URL("../site/search-index.json", import.meta.url), "utf8"),
@@ -10,6 +15,17 @@ function resultCount(query) {
   const terms = termsFor(query);
   const groups = searchGroupsFor(terms);
   return payload.items.filter((item) => scoreItem(item, groups, query) > 0).length;
+}
+
+function groupedResults(query) {
+  const terms = termsFor(query);
+  const groups = searchGroupsFor(terms);
+  return groupRankedResults(
+    payload.items
+      .map((item) => ({ item, score: scoreItem(item, groups, query) }))
+      .filter((entry) => entry.score > 0)
+      .sort((a, b) => b.score - a.score || a.item.pdf_page - b.item.pdf_page),
+  );
 }
 
 function topTitles(query, limit = 10) {
@@ -48,5 +64,17 @@ assert.ok(
 assert.ok(
   topTitles("환자 안전은 어떻게 관리하나").some((title) => title.includes("환자안전")),
 );
+
+const grouped = groupedResults("의사 수 늘리면 지역의료 좋아지나");
+assert.ok(grouped.length > 0);
+assert.ok(grouped.length < resultCount("의사 수 늘리면 지역의료 좋아지나"));
+assert.equal(new Set(grouped.map((publication) => publication.sourceId)).size, grouped.length);
+for (const publication of grouped) {
+  assert.ok(publication.publicationTitle);
+  assert.ok(publication.matchedPageCount >= publication.hits.length);
+  assert.ok(publication.hits.length <= 4);
+  const displayedPages = publication.hits.map((hit) => hit.item.pdf_page);
+  assert.equal(new Set(displayedPages).size, displayedPages.length);
+}
 
 console.log(JSON.stringify(counts, null, 2));

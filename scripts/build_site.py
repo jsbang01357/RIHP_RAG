@@ -35,6 +35,7 @@ def main() -> int:
                     "unit_id": metadata["unit_id"],
                     "source_id": metadata["source_id"],
                     "title": metadata["title"],
+                    "publication_title": source.get("title", "") or metadata["title"],
                     "collection": metadata["collection"],
                     "publication_id": metadata["publication_id"],
                     "year": source.get("year", ""),

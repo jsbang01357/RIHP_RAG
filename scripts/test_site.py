@@ -20,6 +20,9 @@ def main() -> int:
     assert "./downloads/rihp-rag-chatgpt.zip" in html
     assert 'type="module"' in html
     assert 'from "./search.mjs"' in app
+    assert "groupRankedResults" in app
+    assert 'class="publication-card"' in app
+    assert 'class="page-hit"' in app
     assert '"compositionstart"' in app
     assert '"compositionend"' in app
     assert "RIHP ${board} #${recordId} 보기" in app
@@ -33,6 +36,7 @@ def main() -> int:
     assert payload["stats"]["chunks"] == len(items)
     assert len({item["id"] for item in items}) == len(items)
     assert all(item["text"].strip() for item in items)
+    assert all(item["publication_title"].strip() for item in items)
     assert all(item["source_url"] and item["pdf_url"] for item in items)
     assert all(urlparse(item["source_url"]).hostname == "rihp.re.kr" for item in items)
     assert all(urlparse(item["pdf_url"]).hostname == "rihp.re.kr" for item in items)

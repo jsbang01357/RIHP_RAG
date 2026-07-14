@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="의료정책연구원 공개 발간물에서 관심 키워드와 원문 출처를 찾는 정적 검색 도구"
+      content="의료정책연구원 공개 PDF를 Haystack 하이브리드 RAG로 탐색하고 발간물·페이지 근거가 있는 답변을 제공하는 도구"
     />
     <meta name="theme-color" content="#15223a" />
     <title>RIHP Policy Finder</title>
-    <link rel="stylesheet" href="./styles.css?v=20260712-rag" />
-    <script type="module" src="./app.js?v=20260713-search"></script>
+    <link rel="stylesheet" href="./styles.css?v=20260714-haystack-gcp" />
+    <script type="module" src="./app.js?v=20260714-haystack-gcp"></script>
   </head>
   <body>
     <header class="site-header">
@@ -33,11 +33,11 @@
 
     <main>
       <section class="hero" aria-labelledby="hero-title">
-        <p class="eyebrow">PUBLIC MEDICAL POLICY ARCHIVE</p>
-        <h1 id="hero-title">궁금한 의료정책을<br />원문 페이지까지 찾아보세요.</h1>
+        <p class="eyebrow">FULL-TEXT POLICY EXPLORER</p>
+        <h1 id="hero-title">제목 검색을 넘어,<br />PDF 본문 근거까지.</h1>
         <p class="hero-copy">
-          계간 의료정책포럼, 연구보고서, 정책현안분석을 키워드로 검색하고
-          관련 문장과 저자, PDF 페이지, RIHP 공식 게시물 위치를 한 번에 확인합니다.
+          PDF 본문 전체를 직접 검색하고, 질문형 검색에는 Haystack과 Vertex AI가
+          발간물·PDF 페이지 근거를 묶어 답합니다. 모든 답변은 RIHP 원문으로 다시 확인할 수 있습니다.
         </p>
 
         <form id="searchForm" class="search-panel" role="search">
@@ -48,11 +48,11 @@
               name="q"
               type="search"
               autocomplete="off"
-              placeholder="예: 지역의료, 의사 근무시간, CPD, CMS-HCC"
+              placeholder="예: 의사 수를 늘리면 지역의료가 좋아지나?"
             />
             <kbd>/</kbd>
           </label>
-          <button type="submit">검색</button>
+          <button type="submit">검색·AI 답변</button>
         </form>
 
         <div class="suggestions" aria-label="추천 검색어">
@@ -63,13 +63,33 @@
           <button type="button" data-query="CMS-HCC">CMS-HCC</button>
           <button type="button" data-query="인공지능 의료">의료 AI</button>
         </div>
+
+        <div class="search-capabilities" aria-label="검색 기능">
+          <span><strong>본문 전체</strong> PDF 속 문장 검색</span>
+          <span><strong>발간물 묶음</strong> 중복 결과 정리</span>
+          <span><strong>페이지 근거</strong> 정확한 PDF 쪽수</span>
+          <span><strong>질문형 RAG</strong> 근거 번호가 있는 AI 답변</span>
+        </div>
+
+        <section id="ragAnswer" class="rag-answer" aria-labelledby="ragAnswerTitle" hidden>
+          <div class="rag-answer-head">
+            <div>
+              <span>HAYSTACK HYBRID RAG</span>
+              <h2 id="ragAnswerTitle">의료정책 근거 답변</h2>
+            </div>
+            <p id="ragMode">Haystack BM25 + Vertex 의미 검색</p>
+          </div>
+          <p id="ragStatus" class="rag-status" aria-live="polite"></p>
+          <div id="ragText" class="rag-text"></div>
+          <div id="ragSources" class="rag-sources" aria-label="AI 답변 근거 발간물"></div>
+        </section>
       </section>
 
       <section class="archive-stats" aria-label="아카이브 통계">
         <div><strong id="documentCount">-</strong><span>발간물</span></div>
         <div><strong id="unitCount">-</strong><span>문서 단위</span></div>
         <div><strong id="chunkCount">-</strong><span>검색 조각</span></div>
-        <p>서버 전송 없이 브라우저 안에서 검색합니다.</p>
+        <p>본문 검색은 브라우저에서, 질문형 근거 답변은 GCP Cloud Run에서 처리합니다.</p>
       </section>
 
       <section class="rag-download" aria-labelledby="rag-download-title">
@@ -97,7 +117,7 @@
             <li><strong>3</strong><span>TXT 전체 업로드</span></li>
             <li><strong>4</strong><span>출처 포함 질문</span></li>
           </ol>
-          <p>새 발간물이 추가될 때마다 Pages 배포에서 자동으로 최신 패키지를 다시 만듭니다.</p>
+          <p>새 발간물이 추가될 때마다 배포 빌드에서 최신 패키지를 다시 만듭니다.</p>
         </div>
       </section>
 
@@ -105,7 +125,10 @@
         <div class="explorer-head">
           <div>
             <p class="eyebrow">SEARCH RESULTS</p>
-            <h2 id="results-title">검색 결과</h2>
+            <h2 id="results-title">발간물별 검색 결과</h2>
+            <p class="explorer-note">
+              같은 발간물은 하나로 묶고, 관련 PDF 페이지를 근거 문장과 함께 표시합니다.
+            </p>
           </div>
           <div class="filters">
             <label>
@@ -141,7 +164,7 @@
     </main>
 
     <footer>
-      <p>RIHP Policy Knowledge Base · source-traceable static search</p>
+      <p>RIHP Policy Knowledge Base · source-traceable Haystack RAG</p>
       <p>원문 저작권은 각 저작자와 대한의사협회 의료정책연구원에 있습니다.</p>
     </footer>
   </body>

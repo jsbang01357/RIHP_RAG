@@ -101,6 +101,73 @@ function occurrences(value, term) {
     : value.split(term).length - 1;
 }
 
+function textFingerprint(value) {
+  return normalize(value).replace(/\s+/g, " ").trim();
+}
+
+export function groupRankedResults(ranked, maxPagesPerPublication = 4) {
+  const bySource = new Map();
+
+  for (const entry of ranked) {
+    const { item, score } = entry;
+    let group = bySource.get(item.source_id);
+    if (!group) {
+      group = {
+        sourceId: item.source_id,
+        publicationTitle: item.publication_title || item.title,
+        publicationId: item.publication_id,
+        collection: item.collection,
+        year: item.year,
+        publishedAt: item.published_at,
+        sourceUrl: item.source_url,
+        score,
+        pageHits: new Map(),
+      };
+      bySource.set(item.source_id, group);
+    }
+
+    group.score = Math.max(group.score, score);
+    const pageKey = String(item.pdf_page);
+    const existing = group.pageHits.get(pageKey);
+    if (!existing || score > existing.score) {
+      group.pageHits.set(pageKey, entry);
+    }
+  }
+
+  return [...bySource.values()]
+    .map((group) => {
+      const seenText = new Set();
+      const uniqueHits = [...group.pageHits.values()]
+        .sort(
+          (a, b) =>
+            b.score - a.score ||
+            Number(a.item.pdf_page) - Number(b.item.pdf_page) ||
+            String(a.item.id).localeCompare(String(b.item.id)),
+        )
+        .filter((hit) => {
+          const fingerprint = textFingerprint(hit.item.text);
+          if (fingerprint.length >= 80 && seenText.has(fingerprint)) return false;
+          if (fingerprint.length >= 80) seenText.add(fingerprint);
+          return true;
+        });
+      const { pageHits: _pageHits, ...publication } = group;
+      return {
+        ...publication,
+        matchedPageCount: uniqueHits.length,
+        allPages: uniqueHits
+          .map((hit) => Number(hit.item.pdf_page))
+          .sort((a, b) => a - b),
+        hits: uniqueHits.slice(0, maxPagesPerPublication),
+      };
+    })
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        String(b.publishedAt || b.year).localeCompare(String(a.publishedAt || a.year)) ||
+        a.sourceId.localeCompare(b.sourceId),
+    );
+}
+
 export function scoreItem(item, groups, fullQuery) {
   if (!groups.length) return 0;
 

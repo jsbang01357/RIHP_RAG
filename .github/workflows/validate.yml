@@ -16,8 +16,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Haystack service dependencies
+        run: python3 -m pip install -r requirements-service.txt
+
       - name: Build search index
         run: python3 scripts/build_site.py
+
+      - name: Build Haystack documents
+        run: python3 scripts/build_haystack_documents.py
 
       - name: Build ChatGPT RAG pack
         run: python3 scripts/build_exports.py
@@ -30,3 +41,16 @@ jobs:
 
       - name: Validate search behavior
         run: node scripts/test_search_logic.mjs
+
+      - name: Validate Haystack export and embeddings
+        run: |
+          python3 scripts/test_haystack_export.py
+          python3 scripts/test_haystack_embeddings.py
+
+      - name: Validate Haystack service
+        env:
+          HAYSTACK_TELEMETRY_ENABLED: "False"
+        run: python3 scripts/test_rag_service.py
+
+      - name: Validate RAG web runtime
+        run: node scripts/test_web_runtime.mjs

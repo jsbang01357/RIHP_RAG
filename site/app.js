@@ -1,4 +1,10 @@
-import { normalize, scoreItem, searchGroupsFor, termsFor } from "./search.mjs";
+import {
+  groupRankedResults,
+  normalize,
+  scoreItem,
+  searchGroupsFor,
+  termsFor,
+} from "./search.mjs";
 
 const COLLECTION_LABELS = {
   "medical-policy-forum": "계간 의료정책포럼",
@@ -20,6 +26,8 @@ const state = {
   query: "",
   collection: "",
   year: "",
+  ragRequestId: 0,
+  ragController: null,
 };
 
 const elements = {
@@ -33,6 +41,11 @@ const elements = {
   documentCount: document.querySelector("#documentCount"),
   unitCount: document.querySelector("#unitCount"),
   chunkCount: document.querySelector("#chunkCount"),
+  ragAnswer: document.querySelector("#ragAnswer"),
+  ragMode: document.querySelector("#ragMode"),
+  ragStatus: document.querySelector("#ragStatus"),
+  ragText: document.querySelector("#ragText"),
+  ragSources: document.querySelector("#ragSources"),
 };
 
 const escapeHtml = (value) =>
@@ -84,25 +97,126 @@ function excerptFor(text, terms) {
   return `${start ? "…" : ""}${clean.slice(start, end)}${end < clean.length ? "…" : ""}`;
 }
 
-function resultCard(item, terms, searchTerms) {
-  const collection = COLLECTION_LABELS[item.collection] || item.collection;
-  const authors = item.authors?.length ? item.authors.join(" · ") : "저자 정보 확인 중";
-  const sourceUrl = safeLink(item.source_url);
-  const dateLabel = item.published_at || item.year;
+function pageHit(item, terms, searchTerms) {
+  const authors = item.authors?.length ? item.authors.join(" · ") : "";
   return `
-    <article class="result-card">
-      <div class="result-meta">
-        <span class="badge">${escapeHtml(collection)}</span>
-        <span class="badge page-badge">PDF p.${escapeHtml(item.pdf_page)}</span>
-        ${dateLabel ? `<span class="badge">${escapeHtml(dateLabel)}</span>` : ""}
+    <section class="page-hit" aria-label="PDF ${escapeHtml(item.pdf_page)}쪽">
+      <div class="page-hit-head">
+        <span class="page-number">PDF ${escapeHtml(item.pdf_page)}쪽</span>
+        <h4>${highlight(item.title, terms)}</h4>
       </div>
-      <h3>${highlight(item.title, terms)}</h3>
-      <p class="byline">${escapeHtml(authors)} · ${escapeHtml(item.publication_id)}</p>
+      ${authors ? `<p class="hit-byline">${escapeHtml(authors)}</p>` : ""}
       <p class="excerpt">${highlight(excerptFor(item.text, searchTerms), terms)}</p>
-      <div class="result-actions">
-        <a href="${sourceUrl}" target="_blank" rel="noopener">${escapeHtml(sourceLabel(sourceUrl))}</a>
-      </div>
+    </section>`;
+}
+
+function publicationCard(group, terms, searchTerms) {
+  const collection = COLLECTION_LABELS[group.collection] || group.collection;
+  const dateLabel = group.publishedAt || group.year;
+  const sourceUrl = safeLink(group.sourceUrl);
+  const visiblePages = new Set(group.hits.map((hit) => Number(hit.item.pdf_page)));
+  const extraPages = group.allPages.filter((page) => !visiblePages.has(page));
+  const listedExtraPages = extraPages.slice(0, 12);
+  const remainingExtraPages = Math.max(0, extraPages.length - listedExtraPages.length);
+  const pageHits = group.hits
+    .map((hit) => pageHit(hit.item, terms, searchTerms))
+    .join("");
+  const extraPageLabel = listedExtraPages.length
+    ? `${listedExtraPages.map((page) => `${page}쪽`).join(" · ")}${
+        remainingExtraPages ? ` · 외 ${remainingExtraPages}개 페이지` : ""
+      }`
+    : "";
+
+  return `
+    <article class="publication-card">
+      <header class="publication-head">
+        <div class="publication-heading">
+          <div class="result-meta">
+            <span class="badge">${escapeHtml(collection)}</span>
+            ${dateLabel ? `<span class="badge">${escapeHtml(dateLabel)}</span>` : ""}
+            <span class="badge match-badge">관련 PDF ${escapeHtml(group.matchedPageCount)}쪽</span>
+          </div>
+          <h3>${highlight(group.publicationTitle, terms)}</h3>
+          <p class="byline">${escapeHtml(group.publicationId)}</p>
+        </div>
+        <div class="result-actions">
+          <a href="${sourceUrl}" target="_blank" rel="noopener">${escapeHtml(sourceLabel(sourceUrl))}</a>
+        </div>
+      </header>
+      <div class="page-hits">${pageHits}</div>
+      ${extraPageLabel ? `<p class="additional-pages"><strong>추가 일치 페이지</strong> ${escapeHtml(extraPageLabel)}</p>` : ""}
     </article>`;
+}
+
+function clearRagAnswer() {
+  state.ragRequestId += 1;
+  state.ragController?.abort();
+  state.ragController = null;
+  elements.ragAnswer.hidden = true;
+  elements.ragStatus.textContent = "";
+  elements.ragText.textContent = "";
+  elements.ragSources.replaceChildren();
+}
+
+function renderRagAnswer(payload) {
+  const hybrid = payload.mode === "hybrid";
+  elements.ragMode.textContent = hybrid ? "Haystack BM25 + Vertex 의미 검색" : "Haystack BM25 검색";
+  elements.ragStatus.textContent = payload.generation_status === "generated"
+    ? "공개 발간물의 기계 추출 본문에 근거한 AI 답변입니다."
+    : "AI 문장 생성 없이 관련 근거를 우선 표시했습니다.";
+  elements.ragText.innerHTML = escapeHtml(payload.answer || "답변을 만들지 못했습니다.")
+    .replaceAll("\n", "<br />");
+  elements.ragSources.innerHTML = (payload.sources || []).map((source) => {
+    const sourceUrl = safeLink(source.source_url);
+    const authors = source.authors?.length ? source.authors.join(" · ") : "";
+    const excerpt = String(source.content || "").slice(0, 280);
+    return `
+      <article class="rag-source">
+        <div class="rag-source-head">
+          <span>[${escapeHtml(source.index)}]</span>
+          <strong>PDF ${escapeHtml(source.pdf_page)}쪽</strong>
+        </div>
+        <h4>${escapeHtml(source.publication_title)}</h4>
+        <p class="rag-source-section">${escapeHtml(source.section_title)}${authors ? ` · ${escapeHtml(authors)}` : ""}</p>
+        <p>${escapeHtml(excerpt)}${String(source.content || "").length > excerpt.length ? "…" : ""}</p>
+        <a href="${sourceUrl}" target="_blank" rel="noopener">${escapeHtml(sourceLabel(sourceUrl))}</a>
+      </article>`;
+  }).join("");
+}
+
+async function requestRagAnswer(query) {
+  const trimmed = query.trim();
+  if (trimmed.length < 2) {
+    clearRagAnswer();
+    return;
+  }
+  state.ragController?.abort();
+  const controller = new AbortController();
+  state.ragController = controller;
+  const requestId = ++state.ragRequestId;
+  elements.ragAnswer.hidden = false;
+  elements.ragMode.textContent = "Haystack BM25 + Vertex 의미 검색";
+  elements.ragStatus.textContent = "관련 발간물을 찾고 근거 답변을 만들고 있습니다…";
+  elements.ragText.textContent = "";
+  elements.ragSources.replaceChildren();
+  try {
+    const response = await fetch("/api/rag", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: trimmed, top_k: 6 }),
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    if (requestId !== state.ragRequestId) return;
+    renderRagAnswer(payload);
+  } catch (error) {
+    if (controller.signal.aborted || requestId !== state.ragRequestId) return;
+    elements.ragStatus.textContent = error.message === "HTTP 429"
+      ? "질문이 잠시 몰렸습니다. 잠시 후 다시 시도해 주세요. 아래 본문 검색은 그대로 사용할 수 있습니다."
+      : "AI 근거 답변에 연결하지 못했습니다. 아래 브라우저 본문 검색은 그대로 사용할 수 있습니다.";
+    elements.ragText.textContent = "";
+  }
 }
 
 function render() {
@@ -140,24 +254,22 @@ function render() {
         a.item.pdf_page - b.item.pdf_page,
     );
 
-  const seen = new Set();
-  const deduped = [];
-  for (const entry of ranked) {
-    const key = `${entry.item.unit_id}:${entry.item.pdf_page}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    deduped.push(entry.item);
-    if (deduped.length === 50) break;
-  }
+  const publications = groupRankedResults(ranked);
+  const matchedPages = publications.reduce(
+    (total, publication) => total + publication.matchedPageCount,
+    0,
+  );
 
-  elements.status.textContent = `${deduped.length.toLocaleString("ko-KR")}개의 관련 페이지를 찾았습니다.`;
-  elements.results.innerHTML = deduped.length
-    ? deduped.map((item) => resultCard(item, terms, searchTerms)).join("")
+  elements.status.textContent = `${publications.length.toLocaleString("ko-KR")}개 발간물 · ${matchedPages.toLocaleString("ko-KR")}개 관련 PDF 페이지`;
+  elements.results.innerHTML = publications.length
+    ? publications.map((publication) => publicationCard(publication, terms, searchTerms)).join("")
     : `<div class="empty-state"><strong>일치하는 결과가 없습니다.</strong>검색어를 줄이거나 자료 유형을 전체로 바꿔보세요.</div>`;
 }
 
 function updateQuery(value, pushState = true, syncInput = true) {
-  state.query = value.trim();
+  const nextQuery = value.trim();
+  if (nextQuery !== state.query) clearRagAnswer();
+  state.query = nextQuery;
   if (syncInput) elements.input.value = value;
   if (pushState) {
     const url = new URL(window.location.href);
@@ -187,6 +299,7 @@ function populateFilters() {
 elements.form.addEventListener("submit", (event) => {
   event.preventDefault();
   updateQuery(elements.input.value, true, false);
+  requestRagAnswer(state.query);
 });
 
 let debounce;
@@ -227,7 +340,8 @@ elements.clear.addEventListener("click", () => {
 document.querySelectorAll("[data-query]").forEach((button) => {
   button.addEventListener("click", () => {
     updateQuery(button.dataset.query || "");
-    document.querySelector("#results-title").scrollIntoView({ behavior: "smooth" });
+    requestRagAnswer(state.query);
+    elements.ragAnswer.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 });
 
